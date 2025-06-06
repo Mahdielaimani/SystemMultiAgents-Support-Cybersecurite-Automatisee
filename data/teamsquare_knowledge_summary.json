@@ -1,0 +1,26 @@
+{
+  "integration_date": "2025-05-30T03:20:42.007885",
+  "total_pages": 17,
+  "urls_processed": [
+    "https://www.teamsquare.fr/",
+    "https://www.teamsquare.fr/nous-contacter/",
+    "https://www.teamsquare.fr/entreprise/actualites/",
+    "https://www.teamsquare.fr/entreprise/evenements/",
+    "https://www.teamsquare.fr/entreprise/qui-sommes-nous/",
+    "https://www.teamsquare.fr/entreprise/vision/",
+    "https://www.teamsquare.fr/entreprise/partenaires/",
+    "https://www.teamsquare.fr/entreprise/references/",
+    "https://www.teamsquare.fr/produits/as-simple-as-a-project/",
+    "https://www.teamsquare.fr/nos-produits/add-ons-microsoft/",
+    "https://www.teamsquare.fr/nos-produits/add-ons-sap-ppm/",
+    "https://www.teamsquare.fr/nos-services/management-de-la-transformation/etude-nationale-transformation/",
+    "https://www.teamsquare.fr/nos-services/accompagnement-operationnel/",
+    "https://www.teamsquare.fr/nos-services/project-management-office/",
+    "https://www.teamsquare.fr/nos-services/management-de-la-transformation/le-rouage-manquant-de-votre-transformation/",
+    "https://www.teamsquare.fr/carriere/nos-metiers/",
+    "https://www.teamsquare.fr/carriere/nos-valeurs/"
+  ],
+  "total_content_length": 20246,
+  "chromadb_integrated": true,
+  "neo4j_integrated": false
+}

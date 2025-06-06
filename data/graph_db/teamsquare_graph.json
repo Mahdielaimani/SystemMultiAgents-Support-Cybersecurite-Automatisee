@@ -1,0 +1,607 @@
+{
+  "entities": [
+    {
+      "id": "platform_teamsquare",
+      "name": "TeamSquare",
+      "entity_type": "Platform",
+      "properties": {
+        "description": "Plateforme de collaboration moderne",
+        "website": "https://teamsquare.com",
+        "founded": "2020"
+      },
+      "created_at": 1748877100.864691,
+      "updated_at": 1748877100.8646917
+    },
+    {
+      "id": "pricingplan_plan_starter",
+      "name": "Plan Starter",
+      "entity_type": "PricingPlan",
+      "properties": {
+        "price": "29€/mois",
+        "users": "10",
+        "features": "fonctionnalités de base"
+      },
+      "created_at": 1748877100.8651447,
+      "updated_at": 1748877100.8651457
+    },
+    {
+      "id": "pricingplan_plan_professional",
+      "name": "Plan Professional",
+      "entity_type": "PricingPlan",
+      "properties": {
+        "price": "79€/mois",
+        "users": "50",
+        "features": "fonctionnalités avancées et API"
+      },
+      "created_at": 1748877100.8655205,
+      "updated_at": 1748877100.865521
+    },
+    {
+      "id": "pricingplan_plan_enterprise",
+      "name": "Plan Enterprise",
+      "entity_type": "PricingPlan",
+      "properties": {
+        "price": "199€/mois",
+        "users": "illimités",
+        "features": "toutes fonctionnalités et support dédié"
+      },
+      "created_at": 1748877100.8671806,
+      "updated_at": 1748877100.867181
+    },
+    {
+      "id": "feature_chat",
+      "name": "Chat",
+      "entity_type": "Feature",
+      "properties": {
+        "type": "communication",
+        "real_time": true,
+        "integrated": true
+      },
+      "created_at": 1748877100.8675466,
+      "updated_at": 1748877100.867547
+    },
+    {
+      "id": "feature_gestion_de_projets",
+      "name": "Gestion de Projets",
+      "entity_type": "Feature",
+      "properties": {
+        "type": "management",
+        "visual": true,
+        "intuitive": true
+      },
+      "created_at": 1748877100.8679457,
+      "updated_at": 1748877100.8679464
+    },
+    {
+      "id": "feature_partage_de_fichiers",
+      "name": "Partage de Fichiers",
+      "entity_type": "Feature",
+      "properties": {
+        "type": "storage",
+        "secure": true,
+        "cloud": true
+      },
+      "created_at": 1748877100.8683546,
+      "updated_at": 1748877100.8683693
+    },
+    {
+      "id": "feature_api",
+      "name": "API",
+      "entity_type": "Feature",
+      "properties": {
+        "type": "integration",
+        "rest": true,
+        "documentation": "complète"
+      },
+      "created_at": 1748877100.8687367,
+      "updated_at": 1748877100.8687372
+    },
+    {
+      "id": "feature_tableaux_de_bord",
+      "name": "Tableaux de Bord",
+      "entity_type": "Feature",
+      "properties": {
+        "type": "analytics",
+        "advanced": true,
+        "customizable": true
+      },
+      "created_at": 1748877100.869154,
+      "updated_at": 1748877100.8691545
+    },
+    {
+      "id": "integration_slack",
+      "name": "Slack",
+      "entity_type": "Integration",
+      "properties": {
+        "type": "chat",
+        "native": true,
+        "popular": true
+      },
+      "created_at": 1748877100.869537,
+      "updated_at": 1748877100.8695374
+    },
+    {
+      "id": "integration_microsoft_teams",
+      "name": "Microsoft Teams",
+      "entity_type": "Integration",
+      "properties": {
+        "type": "collaboration",
+        "native": true,
+        "enterprise": true
+      },
+      "created_at": 1748877100.8700166,
+      "updated_at": 1748877100.870017
+    },
+    {
+      "id": "integration_google_workspace",
+      "name": "Google Workspace",
+      "entity_type": "Integration",
+      "properties": {
+        "type": "productivity",
+        "native": true,
+        "cloud": true
+      },
+      "created_at": 1748877100.8704736,
+      "updated_at": 1748877100.8704743
+    },
+    {
+      "id": "integration_github",
+      "name": "GitHub",
+      "entity_type": "Integration",
+      "properties": {
+        "type": "development",
+        "native": true,
+        "version_control": true
+      },
+      "created_at": 1748877100.8708491,
+      "updated_at": 1748877100.8708496
+    },
+    {
+      "id": "integration_trello",
+      "name": "Trello",
+      "entity_type": "Integration",
+      "properties": {
+        "type": "project_management",
+        "native": true,
+        "kanban": true
+      },
+      "created_at": 1748877100.8713846,
+      "updated_at": 1748877100.8713849
+    },
+    {
+      "id": "service_support_24/7",
+      "name": "Support 24/7",
+      "entity_type": "Service",
+      "properties": {
+        "availability": "24/7",
+        "plans": [
+          "Enterprise"
+        ],
+        "type": "premium"
+      },
+      "created_at": 1748877100.8718503,
+      "updated_at": 1748877100.8718507
+    },
+    {
+      "id": "service_support_prioritaire",
+      "name": "Support Prioritaire",
+      "entity_type": "Service",
+      "properties": {
+        "availability": "business_hours",
+        "plans": [
+          "Professional"
+        ],
+        "type": "priority"
+      },
+      "created_at": 1748877100.8727517,
+      "updated_at": 1748877100.872753
+    },
+    {
+      "id": "service_support_email",
+      "name": "Support Email",
+      "entity_type": "Service",
+      "properties": {
+        "availability": "standard",
+        "plans": [
+          "Starter"
+        ],
+        "type": "basic"
+      },
+      "created_at": 1748877100.8733106,
+      "updated_at": 1748877100.8733115
+    },
+    {
+      "id": "industry_développement_logiciel",
+      "name": "Développement Logiciel",
+      "entity_type": "Industry",
+      "properties": {
+        "type": "technology",
+        "use_case": "gestion de projets agiles"
+      },
+      "created_at": 1748877100.8738701,
+      "updated_at": 1748877100.8738706
+    },
+    {
+      "id": "industry_marketing",
+      "name": "Marketing",
+      "entity_type": "Industry",
+      "properties": {
+        "type": "business",
+        "use_case": "campagnes collaboratives"
+      },
+      "created_at": 1748877100.8743756,
+      "updated_at": 1748877100.8743763
+    },
+    {
+      "id": "industry_éducation",
+      "name": "Éducation",
+      "entity_type": "Industry",
+      "properties": {
+        "type": "education",
+        "use_case": "projets étudiants"
+      },
+      "created_at": 1748877100.8748925,
+      "updated_at": 1748877100.874893
+    },
+    {
+      "id": "industry_consulting",
+      "name": "Consulting",
+      "entity_type": "Industry",
+      "properties": {
+        "type": "services",
+        "use_case": "gestion de clients"
+      },
+      "created_at": 1748877100.8754368,
+      "updated_at": 1748877100.8754373
+    }
+  ],
+  "relations": [
+    {
+      "id": "platform_teamsquare_HAS_PLAN_pricingplan_plan_starter_1748877100",
+      "source": "platform_teamsquare",
+      "target": "pricingplan_plan_starter",
+      "relation_type": "HAS_PLAN",
+      "properties": {},
+      "created_at": 1748877100.8760858
+    },
+    {
+      "id": "platform_teamsquare_HAS_PLAN_pricingplan_plan_professional_1748877100",
+      "source": "platform_teamsquare",
+      "target": "pricingplan_plan_professional",
+      "relation_type": "HAS_PLAN",
+      "properties": {},
+      "created_at": 1748877100.8767502
+    },
+    {
+      "id": "platform_teamsquare_HAS_PLAN_pricingplan_plan_enterprise_1748877100",
+      "source": "platform_teamsquare",
+      "target": "pricingplan_plan_enterprise",
+      "relation_type": "HAS_PLAN",
+      "properties": {},
+      "created_at": 1748877100.8773756
+    },
+    {
+      "id": "platform_teamsquare_HAS_FEATURE_feature_chat_1748877100",
+      "source": "platform_teamsquare",
+      "target": "feature_chat",
+      "relation_type": "HAS_FEATURE",
+      "properties": {},
+      "created_at": 1748877100.8779662
+    },
+    {
+      "id": "platform_teamsquare_HAS_FEATURE_feature_gestion_de_projets_1748877100",
+      "source": "platform_teamsquare",
+      "target": "feature_gestion_de_projets",
+      "relation_type": "HAS_FEATURE",
+      "properties": {},
+      "created_at": 1748877100.878584
+    },
+    {
+      "id": "platform_teamsquare_HAS_FEATURE_feature_partage_de_fichiers_1748877100",
+      "source": "platform_teamsquare",
+      "target": "feature_partage_de_fichiers",
+      "relation_type": "HAS_FEATURE",
+      "properties": {},
+      "created_at": 1748877100.8792129
+    },
+    {
+      "id": "platform_teamsquare_HAS_FEATURE_feature_api_1748877100",
+      "source": "platform_teamsquare",
+      "target": "feature_api",
+      "relation_type": "HAS_FEATURE",
+      "properties": {},
+      "created_at": 1748877100.8800602
+    },
+    {
+      "id": "platform_teamsquare_HAS_FEATURE_feature_tableaux_de_bord_1748877100",
+      "source": "platform_teamsquare",
+      "target": "feature_tableaux_de_bord",
+      "relation_type": "HAS_FEATURE",
+      "properties": {},
+      "created_at": 1748877100.881096
+    },
+    {
+      "id": "pricingplan_plan_starter_INCLUDES_feature_chat_1748877100",
+      "source": "pricingplan_plan_starter",
+      "target": "feature_chat",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.8822036
+    },
+    {
+      "id": "pricingplan_plan_starter_INCLUDES_feature_gestion_de_projets_1748877100",
+      "source": "pricingplan_plan_starter",
+      "target": "feature_gestion_de_projets",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.8832672
+    },
+    {
+      "id": "pricingplan_plan_starter_INCLUDES_feature_partage_de_fichiers_1748877100",
+      "source": "pricingplan_plan_starter",
+      "target": "feature_partage_de_fichiers",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.884068
+    },
+    {
+      "id": "pricingplan_plan_professional_INCLUDES_feature_chat_1748877100",
+      "source": "pricingplan_plan_professional",
+      "target": "feature_chat",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.8847895
+    },
+    {
+      "id": "pricingplan_plan_professional_INCLUDES_feature_gestion_de_projets_1748877100",
+      "source": "pricingplan_plan_professional",
+      "target": "feature_gestion_de_projets",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.8857756
+    },
+    {
+      "id": "pricingplan_plan_professional_INCLUDES_feature_partage_de_fichiers_1748877100",
+      "source": "pricingplan_plan_professional",
+      "target": "feature_partage_de_fichiers",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.8866587
+    },
+    {
+      "id": "pricingplan_plan_professional_INCLUDES_feature_api_1748877100",
+      "source": "pricingplan_plan_professional",
+      "target": "feature_api",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.8910072
+    },
+    {
+      "id": "pricingplan_plan_professional_INCLUDES_feature_tableaux_de_bord_1748877100",
+      "source": "pricingplan_plan_professional",
+      "target": "feature_tableaux_de_bord",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.8920813
+    },
+    {
+      "id": "pricingplan_plan_enterprise_INCLUDES_feature_chat_1748877100",
+      "source": "pricingplan_plan_enterprise",
+      "target": "feature_chat",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.8932297
+    },
+    {
+      "id": "pricingplan_plan_enterprise_INCLUDES_feature_gestion_de_projets_1748877100",
+      "source": "pricingplan_plan_enterprise",
+      "target": "feature_gestion_de_projets",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.895086
+    },
+    {
+      "id": "pricingplan_plan_enterprise_INCLUDES_feature_partage_de_fichiers_1748877100",
+      "source": "pricingplan_plan_enterprise",
+      "target": "feature_partage_de_fichiers",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.8963115
+    },
+    {
+      "id": "pricingplan_plan_enterprise_INCLUDES_feature_api_1748877100",
+      "source": "pricingplan_plan_enterprise",
+      "target": "feature_api",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.897789
+    },
+    {
+      "id": "pricingplan_plan_enterprise_INCLUDES_feature_tableaux_de_bord_1748877100",
+      "source": "pricingplan_plan_enterprise",
+      "target": "feature_tableaux_de_bord",
+      "relation_type": "INCLUDES",
+      "properties": {},
+      "created_at": 1748877100.899008
+    },
+    {
+      "id": "platform_teamsquare_INTEGRATES_WITH_integration_slack_1748877100",
+      "source": "platform_teamsquare",
+      "target": "integration_slack",
+      "relation_type": "INTEGRATES_WITH",
+      "properties": {},
+      "created_at": 1748877100.900202
+    },
+    {
+      "id": "platform_teamsquare_INTEGRATES_WITH_integration_microsoft_teams_1748877100",
+      "source": "platform_teamsquare",
+      "target": "integration_microsoft_teams",
+      "relation_type": "INTEGRATES_WITH",
+      "properties": {},
+      "created_at": 1748877100.9022617
+    },
+    {
+      "id": "platform_teamsquare_INTEGRATES_WITH_integration_google_workspace_1748877100",
+      "source": "platform_teamsquare",
+      "target": "integration_google_workspace",
+      "relation_type": "INTEGRATES_WITH",
+      "properties": {},
+      "created_at": 1748877100.903475
+    },
+    {
+      "id": "platform_teamsquare_INTEGRATES_WITH_integration_github_1748877100",
+      "source": "platform_teamsquare",
+      "target": "integration_github",
+      "relation_type": "INTEGRATES_WITH",
+      "properties": {},
+      "created_at": 1748877100.9043891
+    },
+    {
+      "id": "platform_teamsquare_INTEGRATES_WITH_integration_trello_1748877100",
+      "source": "platform_teamsquare",
+      "target": "integration_trello",
+      "relation_type": "INTEGRATES_WITH",
+      "properties": {},
+      "created_at": 1748877100.905417
+    },
+    {
+      "id": "pricingplan_plan_starter_INCLUDES_SUPPORT_service_support_email_1748877100",
+      "source": "pricingplan_plan_starter",
+      "target": "service_support_email",
+      "relation_type": "INCLUDES_SUPPORT",
+      "properties": {},
+      "created_at": 1748877100.90641
+    },
+    {
+      "id": "pricingplan_plan_professional_INCLUDES_SUPPORT_service_support_prioritaire_1748877100",
+      "source": "pricingplan_plan_professional",
+      "target": "service_support_prioritaire",
+      "relation_type": "INCLUDES_SUPPORT",
+      "properties": {},
+      "created_at": 1748877100.9077313
+    },
+    {
+      "id": "pricingplan_plan_enterprise_INCLUDES_SUPPORT_service_support_24/7_1748877100",
+      "source": "pricingplan_plan_enterprise",
+      "target": "service_support_24/7",
+      "relation_type": "INCLUDES_SUPPORT",
+      "properties": {},
+      "created_at": 1748877100.9095452
+    },
+    {
+      "id": "platform_teamsquare_USED_BY_industry_développement_logiciel_1748877100",
+      "source": "platform_teamsquare",
+      "target": "industry_développement_logiciel",
+      "relation_type": "USED_BY",
+      "properties": {},
+      "created_at": 1748877100.9109597
+    },
+    {
+      "id": "platform_teamsquare_USED_BY_industry_marketing_1748877100",
+      "source": "platform_teamsquare",
+      "target": "industry_marketing",
+      "relation_type": "USED_BY",
+      "properties": {},
+      "created_at": 1748877100.9131281
+    },
+    {
+      "id": "platform_teamsquare_USED_BY_industry_éducation_1748877100",
+      "source": "platform_teamsquare",
+      "target": "industry_éducation",
+      "relation_type": "USED_BY",
+      "properties": {},
+      "created_at": 1748877100.914495
+    },
+    {
+      "id": "platform_teamsquare_USED_BY_industry_consulting_1748877100",
+      "source": "platform_teamsquare",
+      "target": "industry_consulting",
+      "relation_type": "USED_BY",
+      "properties": {},
+      "created_at": 1748877100.9159424
+    },
+    {
+      "id": "feature_api_ENABLES_integration_slack_1748877100",
+      "source": "feature_api",
+      "target": "integration_slack",
+      "relation_type": "ENABLES",
+      "properties": {},
+      "created_at": 1748877100.9173396
+    },
+    {
+      "id": "feature_api_ENABLES_integration_microsoft_teams_1748877100",
+      "source": "feature_api",
+      "target": "integration_microsoft_teams",
+      "relation_type": "ENABLES",
+      "properties": {},
+      "created_at": 1748877100.9190674
+    },
+    {
+      "id": "feature_api_ENABLES_integration_google_workspace_1748877100",
+      "source": "feature_api",
+      "target": "integration_google_workspace",
+      "relation_type": "ENABLES",
+      "properties": {},
+      "created_at": 1748877100.9204187
+    },
+    {
+      "id": "feature_api_ENABLES_integration_github_1748877100",
+      "source": "feature_api",
+      "target": "integration_github",
+      "relation_type": "ENABLES",
+      "properties": {},
+      "created_at": 1748877100.9221585
+    },
+    {
+      "id": "feature_api_ENABLES_integration_trello_1748877100",
+      "source": "feature_api",
+      "target": "integration_trello",
+      "relation_type": "ENABLES",
+      "properties": {},
+      "created_at": 1748877100.9236581
+    },
+    {
+      "id": "pricingplan_plan_starter_UPGRADES_TO_pricingplan_plan_professional_1748877100",
+      "source": "pricingplan_plan_starter",
+      "target": "pricingplan_plan_professional",
+      "relation_type": "UPGRADES_TO",
+      "properties": {},
+      "created_at": 1748877100.925152
+    },
+    {
+      "id": "pricingplan_plan_professional_UPGRADES_TO_pricingplan_plan_enterprise_1748877100",
+      "source": "pricingplan_plan_professional",
+      "target": "pricingplan_plan_enterprise",
+      "relation_type": "UPGRADES_TO",
+      "properties": {},
+      "created_at": 1748877100.9266484
+    }
+  ],
+  "stats": {
+    "entities_count": 21,
+    "relations_count": 40,
+    "nodes_count": 21,
+    "edges_count": 40,
+    "entity_types": [
+      "Integration",
+      "Feature",
+      "Platform",
+      "PricingPlan",
+      "Industry",
+      "Service"
+    ],
+    "relation_types": [
+      "USED_BY",
+      "INCLUDES_SUPPORT",
+      "INCLUDES",
+      "HAS_PLAN",
+      "HAS_FEATURE",
+      "UPGRADES_TO",
+      "INTEGRATES_WITH",
+      "ENABLES"
+    ],
+    "graph_file": "data/graph_db/knowledge_graph.pkl",
+    "is_connected": true
+  },
+  "exported_at": 1748877100.9334085
+}

@@ -1,0 +1,6 @@
+{
+  "use_openai_fallback": true,
+  "fallback_mode": "local_responses",
+  "openai_quota_exceeded": true,
+  "local_llm_available": false
+}

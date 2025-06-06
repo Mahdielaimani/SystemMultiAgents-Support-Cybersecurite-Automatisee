@@ -1,0 +1,37 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Node.js
+node_modules/
+npm-debug.log*
+.npm
+
+# Next.js
+.next/
+out/
+
+# Backup directories
+backup_*/
+
+# Large binary files
+*.so
+*.node
+*.bin
+*.model
+*.pkl
+*.h5
+*.pth
+
+# OS files
+.DS_Store
+Thumbs.db
+.env
+.env

@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  nextgen-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - WANDB_API_KEY=${WANDB_API_KEY}
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    command: python main.py --mode api --host 0.0.0.0 --port 8000

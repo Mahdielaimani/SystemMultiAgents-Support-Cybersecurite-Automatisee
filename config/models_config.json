@@ -1,0 +1,29 @@
+{
+  "model_paths": {
+    "intent_classifier": "models/intent_classifier",
+    "vulnerability_classifier": "models/vulnerability_classifier",
+    "network_analyzer": "models/network_analyzer"
+  },
+  "model_info": {
+    "intent_classifier": {
+      "type": "classification",
+      "framework": "transformers",
+      "files": 6,
+      "status": "ready"
+    },
+    "vulnerability_classifier": {
+      "type": "classification",
+      "framework": "transformers",
+      "files": 4,
+      "status": "ready"
+    },
+    "network_analyzer": {
+      "type": "analysis",
+      "framework": "transformers",
+      "files": 5,
+      "status": "ready"
+    }
+  },
+  "last_updated": "2025-01-29",
+  "version": "1.0.0"
+}

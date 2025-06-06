@@ -1,0 +1,26 @@
+[
+  {
+    "url": "https://www.teamsquare.fr/",
+    "title": "TeamSquare - Plateforme de collaboration",
+    "content": "# TeamSquare - Plateforme de collaboration d'équipe\n\nTeamSquare est une plateforme innovante de collaboration d'équipe qui révolutionne la façon dont les équipes travaillent ensemble. Notre solution offre des outils intégrés pour la gestion de projet, la communication en temps réel, et le suivi des performances.\n\n## Fonctionnalités principales\n\n- **Gestion de projets** avec tableaux Kanban avancés\n- **Chat en temps réel** pour une communication fluide\n- **Partage de fichiers sécurisé** avec contrôle d'accès\n- **Calendrier partagé** pour la planification d'équipe\n- **Rapports de productivité** et analytics avancés\n- **Intégrations** avec les outils populaires (Slack, Microsoft Teams, etc.)\n\n## Sécurité\n\nLa sécurité est notre priorité. Nous utilisons :\n- Chiffrement AES-256 pour toutes les données\n- Authentification à deux facteurs (2FA) obligatoire\n- Sauvegardes automatiques quotidiennes\n- Conformité RGPD complète\n\n## Tarification\n\n- **Plan Gratuit** : Jusqu'à 5 utilisateurs (0€/mois)\n- **Plan Pro** : Équipes moyennes (15€/utilisateur/mois)\n- **Plan Enterprise** : Grandes organisations (sur devis)\n\n## Support\n\nNotre équipe support est disponible 24/7 pour vous aider :\n- Chat en direct\n- Email : support@teamsquare.fr\n- Téléphone : +33 1 23 45 67 89\n- Base de connaissances complète",
+    "success": true,
+    "scraped_at": "2025-05-31T18:18:29.546031",
+    "source": "manual_creation"
+  },
+  {
+    "url": "https://www.teamsquare.fr/pricing",
+    "title": "Tarification TeamSquare",
+    "content": "# Tarification TeamSquare\n\n## Plans disponibles\n\n### Plan Gratuit (0€/mois)\n- Jusqu'à 5 utilisateurs\n- 1 GB de stockage\n- Fonctionnalités de base\n- Support par email\n\n### Plan Pro (15€/utilisateur/mois)\n- Utilisateurs illimités\n- 100 GB de stockage par utilisateur\n- Toutes les fonctionnalités avancées\n- Support prioritaire 24/7\n- Intégrations premium\n- Rapports avancés\n\n### Plan Enterprise (sur devis)\n- Stockage illimité\n- Sécurité renforcée\n- Déploiement on-premise possible\n- Support dédié\n- Formation personnalisée\n- SLA garanti\n\n## Comment annuler votre abonnement\n\nVous pouvez annuler votre abonnement à tout moment :\n1. Connectez-vous à votre compte\n2. Allez dans Paramètres > Facturation\n3. Cliquez sur \"Annuler l'abonnement\"\n4. Confirmez votre choix\n\nL'annulation prend effet à la fin de votre période de facturation actuelle.\n\n## Remboursements\n\n- Remboursement intégral sous 30 jours\n- Remboursement prorata pour les annulations anticipées\n- Aucun frais caché",
+    "success": true,
+    "scraped_at": "2025-05-31T18:18:29.546071",
+    "source": "manual_creation"
+  },
+  {
+    "url": "https://www.teamsquare.fr/security",
+    "title": "Sécurité TeamSquare",
+    "content": "# Sécurité et Protection des Données\n\n## Chiffrement et Protection\n\nTeamSquare utilise les meilleures pratiques de sécurité :\n\n- **Chiffrement AES-256** pour toutes les données en transit et au repos\n- **TLS 1.3** pour toutes les communications\n- **Authentification à deux facteurs (2FA)** obligatoire\n- **Contrôle d'accès basé sur les rôles** (RBAC)\n\n## Conformité\n\n- **RGPD** : Conformité complète au Règlement Général sur la Protection des Données\n- **ISO 27001** : Certification de sécurité de l'information\n- **SOC 2 Type II** : Audit de sécurité indépendant\n\n## Sauvegarde et Récupération\n\n- **Sauvegardes automatiques** toutes les 6 heures\n- **Rétention des données** sur 90 jours\n- **Récupération d'urgence** en moins de 4 heures\n- **Tests de récupération** mensuels\n\n## Surveillance et Monitoring\n\n- **Monitoring 24/7** de l'infrastructure\n- **Détection d'intrusion** en temps réel\n- **Logs d'audit** complets\n- **Alertes automatiques** en cas d'incident\n\n## Politique de Confidentialité\n\nNous nous engageons à protéger votre vie privée :\n- Aucune vente de données personnelles\n- Utilisation minimale des données\n- Transparence totale sur l'utilisation\n- Droit à l'oubli respecté",
+    "success": true,
+    "scraped_at": "2025-05-31T18:18:29.546084",
+    "source": "manual_creation"
+  }
+]

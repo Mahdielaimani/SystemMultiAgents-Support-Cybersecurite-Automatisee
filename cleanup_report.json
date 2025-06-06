@@ -1,0 +1,32 @@
+{
+  "timestamp": "2025-05-31",
+  "deleted_files": [
+    "agents/support_agent/agent.py.bak2",
+    "agents/cybersecurity_agent/agent.py.bak2",
+    "backups/agent.py.bak.20250531144903",
+    "backups/agent.py.bak.20250531172958",
+    "backups/server.py.bak.20250531144903",
+    "agents/support_agent/agent.py.bak.1748714465",
+    "agents/support_agent/agent.py.syntax_backup",
+    "chroma_db",
+    "data/chroma_db",
+    "comprehensive_analysis_report.json",
+    "component_verification_results.json",
+    "guardian_report_20250530_182952.json",
+    "health_report.json",
+    "kaggle_models_test_results.json",
+    "ui/src",
+    "ui",
+    ".next",
+    "components/chat-interface.tsx",
+    "components/modern-chat-interface.tsx",
+    "components/animated-guardian-robot.tsx"
+  ],
+  "moved_files": [],
+  "errors": [],
+  "summary": {
+    "total_deleted": 20,
+    "total_moved": 0,
+    "total_errors": 0
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "company": {
+    "name": "NetGuardian",
+    "description": "NetGuardian est une solution de cybersécurité avancée qui utilise l'intelligence artificielle pour protéger les réseaux et systèmes contre les menaces.",
+    "founded": "2023",
+    "headquarters": "Paris, France",
+    "website": "https://netguardian.ai"
+  },
+  "products": [
+    {
+      "name": "NetGuardian Core",
+      "description": "Solution de base pour la détection et la prévention des intrusions",
+      "features": [
+        "Analyse de trafic réseau en temps réel",
+        "Détection d'anomalies basée sur l'IA",
+        "Alertes de sécurité personnalisables",
+        "Tableau de bord intuitif"
+      ]
+    },
+    {
+      "name": "NetGuardian Pro",
+      "description": "Solution avancée pour la protection complète des infrastructures",
+      "features": [
+        "Toutes les fonctionnalités de NetGuardian Core",
+        "Tests de pénétration automatisés",
+        "Analyse de vulnérabilités",
+        "Réponse aux incidents"
+      ]
+    },
+    {
+      "name": "NetGuardian Enterprise",
+      "description": "Solution complète pour les grandes entreprises",
+      "features": [
+        "Toutes les fonctionnalités de NetGuardian Pro",
+        "Intégration avec SIEM",
+        "Support dédié 24/7",
+        "Rapports de conformité personnalisés"
+      ]
+    }
+  ],
+  "support": {
+    "email": "support@netguardian.ai",
+    "phone": "+33 1 23 45 67 89",
+    "hours": "Lundi au Vendredi, 9h-18h CET",
+    "faq_url": "https://netguardian.ai/faq",
+    "documentation_url": "https://docs.netguardian.ai"
+  },
+  "common_issues": [
+    {
+      "issue": "Comment réinitialiser mon mot de passe ?",
+      "solution": "Vous pouvez réinitialiser votre mot de passe en cliquant sur 'Mot de passe oublié' sur la page de connexion, puis en suivant les instructions envoyées par email."
+    },
+    {
+      "issue": "Comment configurer les alertes ?",
+      "solution": "Pour configurer les alertes, accédez à la section 'Paramètres > Alertes' dans votre tableau de bord, puis définissez les conditions et les canaux de notification."
+    },
+    {
+      "issue": "Comment interpréter les rapports de sécurité ?",
+      "solution": "Les rapports de sécurité présentent une vue d'ensemble des menaces détectées, des vulnérabilités identifiées et des recommandations. Consultez notre guide d'interprétation des rapports pour plus de détails."
+    }
+  ]
+}

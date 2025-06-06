@@ -1,0 +1,110 @@
+{
+  "default": {
+    "messages": [
+      {
+        "timestamp": 1749037048.9618824,
+        "query": "ca va tranquille ?",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749037055.4335978,
+        "query": "hey",
+        "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
+      },
+      {
+        "timestamp": 1749037060.8087642,
+        "query": "ca ava",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749070821.7547112,
+        "query": "hello",
+        "response": "Re ! 😊 Ça va ? Une autre question ?"
+      },
+      {
+        "timestamp": 1749070830.4659743,
+        "query": "hi",
+        "response": "Salut ! De retour ? Comment je peux t'aider cette fois ?"
+      },
+      {
+        "timestamp": 1749070943.9114032,
+        "query": "hi",
+        "response": "Re ! 😊 Ça va ? Une autre question ?"
+      },
+      {
+        "timestamp": 1749070948.689388,
+        "query": "bonjour",
+        "response": "Salut ! De retour ? Comment je peux t'aider cette fois ?"
+      },
+      {
+        "timestamp": 1749083122.976698,
+        "query": "salut",
+        "response": "Re-coucou ! Une autre question pour moi ?"
+      },
+      {
+        "timestamp": 1749083279.270045,
+        "query": "tesla ?",
+        "response": "Salut !  Tesla…  ça n'a pas vraiment de rapport avec TeamSquare,  à moins que vous ne vouliez organiser une réunion d'équipe pour discuter de vos voitures Tesla préférées ? 😉  Sinon, comment puis-je vous aider avec TeamSquare aujourd'hui ?\n"
+      },
+      {
+        "timestamp": 1749083718.0896928,
+        "query": "hey",
+        "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
+      },
+      {
+        "timestamp": 1749083743.4819837,
+        "query": "hi",
+        "response": "Re-coucou ! Une autre question pour moi ?"
+      },
+      {
+        "timestamp": 1749083794.86647,
+        "query": "Hello",
+        "response": "Re ! 😊 Ça va ? Une autre question ?"
+      },
+      {
+        "timestamp": 1749084269.6665637,
+        "query": "hi",
+        "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
+      },
+      {
+        "timestamp": 1749084276.960189,
+        "query": "CA VA",
+        "response": "Salut !  Oui, ça va super, merci !  Et toi ?  Tu voulais peut-être en savoir plus sur TeamSquare ?  Je suis là pour répondre à toutes tes questions !\n"
+      },
+      {
+        "timestamp": 1749084291.2956643,
+        "query": "OUI LES TARIFES ?",
+        "response": "Avec plaisir !  Alors, pour les tarifs TeamSquare, on a trois options :  le plan Starter à 9€ par utilisateur et par mois, le plan Professional à 19€ par utilisateur et par mois, et enfin le plan Enterprise, dont le prix est sur devis.  Quel plan t'intéresse le plus, ou as-tu d'autres questions sur les tarifs ?\n"
+      },
+      {
+        "timestamp": 1749084313.6577413,
+        "query": "AA 9 EURO C EST BIEN ",
+        "response": "Oui, 9€ par utilisateur et par mois pour le plan Starter, c'est un prix très compétitif !  C'est une bonne option si vous voulez tester TeamSquare et ses fonctionnalités de base.  Qu'est-ce qui te fait hésiter, ou qu'est-ce que tu aimerais savoir de plus pour te décider ?\n"
+      },
+      {
+        "timestamp": 1749120150.3540142,
+        "query": "hi",
+        "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
+      },
+      {
+        "timestamp": 1749123128.4454315,
+        "query": "hello",
+        "response": "Salut ! De retour ? Comment je peux t'aider cette fois ?"
+      },
+      {
+        "timestamp": 1749126169.585395,
+        "query": "hello",
+        "response": "Re ! 😊 Ça va ? Une autre question ?"
+      },
+      {
+        "timestamp": 1749126667.6022606,
+        "query": "Ca va",
+        "response": "Salut !  Oui, ça va de mon côté, et toi ?  Tu voulais peut-être en savoir plus sur TeamSquare ?  On pourrait parler des différents plans tarifaires, par exemple, ou des fonctionnalités qui pourraient t'intéresser.\n"
+      }
+    ],
+    "context": {},
+    "created_at": 1748918098.4670615,
+    "greeted": true,
+    "last_active": 1749126667.602254
+  }
+}
