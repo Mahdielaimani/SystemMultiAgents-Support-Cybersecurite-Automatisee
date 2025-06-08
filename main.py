@@ -15,7 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from config.settings import load_settings
 from core.system import NextGenSystem
-from api.server import setup_api_routes
+from api.server1 import setup_api_routes
 from utils.model_loader import ModelLoader
 
 # Charger les variables d'environnement

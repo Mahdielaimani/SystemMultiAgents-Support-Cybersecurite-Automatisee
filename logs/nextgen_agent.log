@@ -1,0 +1,66 @@
+2025-06-06 18:07:43,888 - agents.cybersecurity_agent.huggingface_models - INFO - 🤖 Initialisation MOCK avec modèles publics - Device: cpu
+2025-06-06 18:07:43,888 - agents.cybersecurity_agent.huggingface_models - INFO - 🔄 Chargement du modèle MOCK vulnerability_classifier...
+2025-06-06 18:08:01,744 - agents.cybersecurity_agent.huggingface_models - INFO - ✅ Modèle MOCK vulnerability_classifier chargé avec succès
+2025-06-06 18:08:01,744 - agents.cybersecurity_agent.huggingface_models - INFO - 🔄 Chargement du modèle MOCK network_analyzer...
+2025-06-06 18:08:31,049 - agents.cybersecurity_agent.huggingface_models - INFO - ✅ Modèle MOCK network_analyzer chargé avec succès
+2025-06-06 18:08:31,049 - agents.cybersecurity_agent.huggingface_models - INFO - 🔄 Chargement du modèle MOCK intent_classifier...
+2025-06-06 18:08:57,129 - agents.cybersecurity_agent.huggingface_models - INFO - ✅ Modèle MOCK intent_classifier chargé avec succès
+2025-06-06 18:08:57,130 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:08:57,226 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:08:57,320 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:08:57,419 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:08:57,531 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:08:57,608 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:08:57,782 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:08:57,918 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:08:58,037 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:08:58,183 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:08:58,313 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:08:58,414 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:08:58,498 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:08:58,563 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:08:58,630 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:08:58,692 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:08:58,748 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:08:58,853 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:33:19,349 - agents.cybersecurity_agent.huggingface_models - INFO - 🤖 Initialisation MOCK avec modèles publics - Device: cpu
+2025-06-06 18:33:19,350 - agents.cybersecurity_agent.huggingface_models - INFO - 🔄 Chargement du modèle MOCK vulnerability_classifier...
+2025-06-06 18:33:21,428 - agents.cybersecurity_agent.huggingface_models - INFO - ✅ Modèle MOCK vulnerability_classifier chargé avec succès
+2025-06-06 18:33:21,428 - agents.cybersecurity_agent.huggingface_models - INFO - 🔄 Chargement du modèle MOCK network_analyzer...
+2025-06-06 18:33:24,226 - agents.cybersecurity_agent.huggingface_models - INFO - ✅ Modèle MOCK network_analyzer chargé avec succès
+2025-06-06 18:33:24,227 - agents.cybersecurity_agent.huggingface_models - INFO - 🔄 Chargement du modèle MOCK intent_classifier...
+2025-06-06 18:33:26,006 - agents.cybersecurity_agent.huggingface_models - INFO - ✅ Modèle MOCK intent_classifier chargé avec succès
+2025-06-06 18:33:26,006 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:33:26,098 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:33:26,167 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:33:26,226 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:33:26,318 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:33:26,405 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:33:26,628 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:33:26,832 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:33:26,947 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:33:27,097 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:33:27,213 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:33:27,344 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:33:27,453 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:33:27,582 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:33:27,778 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-06 18:33:27,870 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec vulnerability_classifier sur 1 textes
+2025-06-06 18:33:27,933 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec network_analyzer sur 1 textes
+2025-06-06 18:33:28,048 - agents.cybersecurity_agent.huggingface_models - INFO - 📊 Prédiction MOCK avec intent_classifier sur 1 textes
+2025-06-07 00:13:26,244 - agents.cybersecurity_agent.custom_model_loaders - INFO - 🤖 Initialisation des modèles personnalisés - Device: cpu
+2025-06-07 00:13:55,701 - agents.cybersecurity_agent.custom_model_loaders - ERROR - ❌ Erreur chargement modèle PyTorch: Weights only load failed. This file can still be loaded, to do so you have two options, [1mdo those steps only if you trust the source of the checkpoint[0m. 
+	(1) In PyTorch 2.6, we changed the default value of the `weights_only` argument in `torch.load` from `False` to `True`. Re-running `torch.load` with `weights_only` set to `False` will likely succeed, but it can result in arbitrary code execution. Do it only if you got the file from a trusted source.
+	(2) Alternatively, to load with `weights_only=True` please check the recommended steps in the following error message.
+	WeightsUnpickler error: Unsupported global: GLOBAL numpy.core.multiarray._reconstruct was not an allowed global by default. Please use `torch.serialization.add_safe_globals([numpy.core.multiarray._reconstruct])` or the `torch.serialization.safe_globals([numpy.core.multiarray._reconstruct])` context manager to allowlist this global if you trust this class/function.
+
+Check the documentation of torch.load to learn more about types accepted by default with weights_only https://pytorch.org/docs/stable/generated/torch.load.html.
+2025-06-07 00:14:03,437 - agents.cybersecurity_agent.custom_model_loaders - ERROR - ❌ Erreur chargement modèle XGBoost: invalid load key, '\x08'.
+2025-06-07 00:14:05,848 - agents.cybersecurity_agent.custom_model_loaders - INFO - ✅ Tous les modèles personnalisés chargés
+2025-06-07 00:22:39,879 - agents.cybersecurity_agent.custom_model_loaders - INFO - 🤖 Initialisation des modèles personnalisés - Device: cpu
+2025-06-07 00:22:40,791 - agents.cybersecurity_agent.custom_model_loaders - INFO - ✅ Modèle PyTorch chargé depuis elmahdielaimani/vulnerability-classifier
+2025-06-07 00:22:42,004 - agents.cybersecurity_agent.custom_model_loaders - INFO - ✅ Modèle XGBoost chargé (format pickle)
+2025-06-07 00:22:42,005 - agents.cybersecurity_agent.custom_model_loaders - WARNING - ⚠️ Erreur chargement des préprocesseurs: invalid load key, '\x08'.
+2025-06-07 00:22:42,005 - agents.cybersecurity_agent.custom_model_loaders - INFO - ✅ Composants XGBoost chargés depuis elmahdielaimani/network-analyzer-cicids
+2025-06-07 00:22:45,689 - agents.cybersecurity_agent.custom_model_loaders - INFO - ✅ Pipeline intent classifier chargé
+2025-06-07 00:22:45,689 - agents.cybersecurity_agent.custom_model_loaders - INFO - ✅ Tous les modèles personnalisés initialisés

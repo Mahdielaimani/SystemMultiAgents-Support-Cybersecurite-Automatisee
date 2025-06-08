@@ -6,25 +6,25 @@ import os
 
 class HuggingFaceConfig:
     # Vos informations HF
-    HF_USERNAME = "elmahdielmani"
+    HF_USERNAME = "elmahdielaimani"
     HF_TOKEN = os.getenv("HUGGINGFACE_TOKEN")
 
     # Vos modèles
     MODELS = {
         "vulnerability_classifier": {
-            "model_name": "elmahdielmani/vulnerability-classifier",
+            "model_name": "elmahdielaimani/vulnerability-classifier",
             "description": "Classifie les vulnérabilités de sécurité dans le code",
             "downloads_last_month": "Unknown",
             "license": "apache-2.0"
         },
         "network_analyzer": {
-            "model_name": "elmahdielmani/network-analyzer-cicids",
+            "model_name": "elmahdielaimani/network-analyzer-cicids",
             "description": "Analyse le trafic réseau pour détecter les attaques (CIC-IDS)",
             "downloads_last_month": "Unknown",
             "license": "apache-2.0"
         },
         "intent_classifier": {
-            "model_name": "elmahdielmani/intent-classifier-security",
+            "model_name": "elmahdielaimani/intent-classifier-security",
             "description": "Classifie l'intention de sécurité des utilisateurs",
             "downloads_last_month": "3",
             "license": "apache-2.0"

@@ -150,7 +150,7 @@ class SystemHealthChecker:
         
         # API FastAPI
         try:
-            from api.server import app
+            from api.server1 import app
             print("✅ FastAPI: IMPORTABLE")
             self.results["apis"]["fastapi"] = True
         except Exception as e:

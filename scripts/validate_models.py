@@ -224,7 +224,7 @@ class SystemValidator:
         
         try:
             # Import du serveur API
-            from api.server import app
+            from api.server1 import app
             print_colored("  ✅ Serveur API importé", Colors.GREEN)
             
             # Test de création d'une instance FastAPI

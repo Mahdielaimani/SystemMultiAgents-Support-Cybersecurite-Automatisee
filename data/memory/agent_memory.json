@@ -2,36 +2,6 @@
   "default": {
     "messages": [
       {
-        "timestamp": 1749037048.9618824,
-        "query": "ca va tranquille ?",
-        "response": "Erreur Mistral HTTP 404"
-      },
-      {
-        "timestamp": 1749037055.4335978,
-        "query": "hey",
-        "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
-      },
-      {
-        "timestamp": 1749037060.8087642,
-        "query": "ca ava",
-        "response": "Erreur Mistral HTTP 404"
-      },
-      {
-        "timestamp": 1749070821.7547112,
-        "query": "hello",
-        "response": "Re ! 😊 Ça va ? Une autre question ?"
-      },
-      {
-        "timestamp": 1749070830.4659743,
-        "query": "hi",
-        "response": "Salut ! De retour ? Comment je peux t'aider cette fois ?"
-      },
-      {
-        "timestamp": 1749070943.9114032,
-        "query": "hi",
-        "response": "Re ! 😊 Ça va ? Une autre question ?"
-      },
-      {
         "timestamp": 1749070948.689388,
         "query": "bonjour",
         "response": "Salut ! De retour ? Comment je peux t'aider cette fois ?"
@@ -100,11 +70,207 @@
         "timestamp": 1749126667.6022606,
         "query": "Ca va",
         "response": "Salut !  Oui, ça va de mon côté, et toi ?  Tu voulais peut-être en savoir plus sur TeamSquare ?  On pourrait parler des différents plans tarifaires, par exemple, ou des fonctionnalités qui pourraient t'intéresser.\n"
+      },
+      {
+        "timestamp": 1749401729.5803745,
+        "query": "Hello",
+        "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
+      },
+      {
+        "timestamp": 1749401747.4046335,
+        "query": "teamsquere ?",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749401803.6809301,
+        "query": "je veux savoir details teamsqur fait qoui",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749401962.8393006,
+        "query": "Hello",
+        "response": "Re ! 😊 Ça va ? Une autre question ?"
+      },
+      {
+        "timestamp": 1749402008.8317738,
+        "query": "oui tu peu me donner des dtails ur teamsqure",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749402059.3740625,
+        "query": "cc",
+        "response": "Erreur Mistral HTTP 404"
       }
     ],
     "context": {},
     "created_at": 1748918098.4670615,
     "greeted": true,
-    "last_active": 1749126667.602254
+    "last_active": 1749402059.3740592
+  },
+  "attack_test_1749398900": {
+    "created_at": 1749398921.646666,
+    "last_active": 1749399019.2899947,
+    "greeted": false,
+    "user_info": {},
+    "messages": [
+      {
+        "timestamp": 1749398949.1302357,
+        "query": "';alert(String.fromCharCode(88,83,83))//",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749398974.1228313,
+        "query": "' OR '1'='1",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749398979.7367406,
+        "query": "'; DROP TABLE users; --",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749398982.3497167,
+        "query": "SELECT * FROM users WHERE id = 1 UNION SELECT password FROM admin",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749398985.027363,
+        "query": "1' AND '1'='1' UNION SELECT NULL, username, password FROM users--",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749398987.4717546,
+        "query": "admin' --",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749398992.8614326,
+        "query": "../../../etc/passwd",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749398995.249755,
+        "query": "..\\..\\..\\windows\\system32\\config\\sam",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749398997.6062512,
+        "query": "%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749398999.9495664,
+        "query": "....//....//....//etc/passwd",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749399002.38143,
+        "query": "file:///etc/passwd",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749399007.762097,
+        "query": "Tentative de connexion: username=admin, password=password",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749399009.2016456,
+        "query": "Tentative de connexion: username=admin, password=123456",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749399010.614975,
+        "query": "Tentative de connexion: username=admin, password=admin",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749399012.050537,
+        "query": "Tentative de connexion: username=root, password=password",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749399013.4331646,
+        "query": "Tentative de connexion: username=root, password=123456",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749399014.7914863,
+        "query": "Tentative de connexion: username=root, password=admin",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749399016.2111776,
+        "query": "Tentative de connexion: username=administrator, password=password",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749399017.792677,
+        "query": "Tentative de connexion: username=administrator, password=123456",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749399019.2899976,
+        "query": "Tentative de connexion: username=administrator, password=admin",
+        "response": "Erreur Mistral HTTP 404"
+      }
+    ]
+  },
+  "attack_test_1749402132": {
+    "created_at": 1749402133.626347,
+    "last_active": 1749402162.7879515,
+    "greeted": false,
+    "user_info": {},
+    "messages": [
+      {
+        "timestamp": 1749402133.6357222,
+        "query": "Bonjour, j'ai besoin d'aide avec mon compte",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749402136.2180753,
+        "query": "Comment puis-je réinitialiser mon mot de passe?",
+        "response": "Euh... 'Comment puis-je réinitialiser mon mot de passe?' ? 😅 C'est pas vraiment mon truc, mais je peux chercher sur le web ! Tu veux que je regarde ?"
+      },
+      {
+        "timestamp": 1749402138.6600583,
+        "query": "Quelle est la politique de sécurité de l'entreprise?",
+        "response": "Je te demandais si tu voulais que je cherche des infos sur 'Comment puis-je réinitialiser mon mot de passe?' ? C'est pas lié à TeamSquare, mais je peux quand même chercher si tu veux. Dis-moi juste oui ou non 😊"
+      },
+      {
+        "timestamp": 1749402142.035171,
+        "query": "Je souhaite signaler un problème technique",
+        "response": "🔍 Erreur Mistral HTTP 404\n\nBon, maintenant si tu veux parler de TeamSquare... 😉"
+      },
+      {
+        "timestamp": 1749402145.0085528,
+        "query": "Merci pour votre assistance",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749402150.9641874,
+        "query": "<script>alert('XSS')</script>",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749402153.9840682,
+        "query": "<img src=x onerror=alert('XSS')>",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749402156.9143312,
+        "query": "<iframe src='javascript:alert(1)'></iframe>",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749402159.754542,
+        "query": "<svg onload=alert('XSS')>",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749402162.7879539,
+        "query": "';alert(String.fromCharCode(88,83,83))//",
+        "response": "Erreur Mistral HTTP 404"
+      }
+    ]
   }
 }

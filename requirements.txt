@@ -90,3 +90,9 @@ datasets
 requests 
 beautifulsoup4
 python-nmap
+xgboost 
+scikit-learn
+fastapi 
+uvicorn 
+pydantic
+
