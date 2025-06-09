@@ -2,66 +2,6 @@
   "default": {
     "messages": [
       {
-        "timestamp": 1749070948.689388,
-        "query": "bonjour",
-        "response": "Salut ! De retour ? Comment je peux t'aider cette fois ?"
-      },
-      {
-        "timestamp": 1749083122.976698,
-        "query": "salut",
-        "response": "Re-coucou ! Une autre question pour moi ?"
-      },
-      {
-        "timestamp": 1749083279.270045,
-        "query": "tesla ?",
-        "response": "Salut !  Tesla…  ça n'a pas vraiment de rapport avec TeamSquare,  à moins que vous ne vouliez organiser une réunion d'équipe pour discuter de vos voitures Tesla préférées ? 😉  Sinon, comment puis-je vous aider avec TeamSquare aujourd'hui ?\n"
-      },
-      {
-        "timestamp": 1749083718.0896928,
-        "query": "hey",
-        "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
-      },
-      {
-        "timestamp": 1749083743.4819837,
-        "query": "hi",
-        "response": "Re-coucou ! Une autre question pour moi ?"
-      },
-      {
-        "timestamp": 1749083794.86647,
-        "query": "Hello",
-        "response": "Re ! 😊 Ça va ? Une autre question ?"
-      },
-      {
-        "timestamp": 1749084269.6665637,
-        "query": "hi",
-        "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
-      },
-      {
-        "timestamp": 1749084276.960189,
-        "query": "CA VA",
-        "response": "Salut !  Oui, ça va super, merci !  Et toi ?  Tu voulais peut-être en savoir plus sur TeamSquare ?  Je suis là pour répondre à toutes tes questions !\n"
-      },
-      {
-        "timestamp": 1749084291.2956643,
-        "query": "OUI LES TARIFES ?",
-        "response": "Avec plaisir !  Alors, pour les tarifs TeamSquare, on a trois options :  le plan Starter à 9€ par utilisateur et par mois, le plan Professional à 19€ par utilisateur et par mois, et enfin le plan Enterprise, dont le prix est sur devis.  Quel plan t'intéresse le plus, ou as-tu d'autres questions sur les tarifs ?\n"
-      },
-      {
-        "timestamp": 1749084313.6577413,
-        "query": "AA 9 EURO C EST BIEN ",
-        "response": "Oui, 9€ par utilisateur et par mois pour le plan Starter, c'est un prix très compétitif !  C'est une bonne option si vous voulez tester TeamSquare et ses fonctionnalités de base.  Qu'est-ce qui te fait hésiter, ou qu'est-ce que tu aimerais savoir de plus pour te décider ?\n"
-      },
-      {
-        "timestamp": 1749120150.3540142,
-        "query": "hi",
-        "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
-      },
-      {
-        "timestamp": 1749123128.4454315,
-        "query": "hello",
-        "response": "Salut ! De retour ? Comment je peux t'aider cette fois ?"
-      },
-      {
         "timestamp": 1749126169.585395,
         "query": "hello",
         "response": "Re ! 😊 Ça va ? Une autre question ?"
@@ -100,12 +40,72 @@
         "timestamp": 1749402059.3740625,
         "query": "cc",
         "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749417075.1968462,
+        "query": "Bonjour ca va",
+        "response": "Re-coucou ! Une autre question pour moi ?"
+      },
+      {
+        "timestamp": 1749417086.5165448,
+        "query": "Ca va",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749417102.793872,
+        "query": "teamsquare ?",
+        "response": "Erreur Mistral HTTP 404"
+      },
+      {
+        "timestamp": 1749479020.371372,
+        "query": "Bonjour ca va monsieur",
+        "response": "Bonjour ! Ça va bien, merci ! Qu'est-ce que vous voulez discuter aujourd'hui ? Vous avez des questions sur notre plateforme de collaboration d'équipe, TeamSquare ?"
+      },
+      {
+        "timestamp": 1749479045.4618304,
+        "query": "OUi donner moi comment je peu collaborer avec votre entreprise",
+        "response": "Bonjour ! Je suis ravi que vous soyez intéressé à collaborer avec nous. À TeamSquare, nous sommes convaincus que la collaboration efficace est au cœur du succès d'une équipe. Notre plateforme vous permet de travailler ensemble de manière fluide, partout et à tout moment.\n\nNous offrons des fonctionnalités telles que des visioconférences intégrées, un chat en temps réel, un partage de fichiers sécurisé et un suivi des tâches et deadlines. Cela vous permettra de gérer vos projets de manière agile et de rester en contact avec vos équipes, même à distance.\n\nPour commencer, je vous recommande de nous contacter pour discuter de vos besoins spécifiques. Nous pouvons vous aider à choisir le plan qui convient le mieux à votre entreprise, en fonction de votre taille et de vos besoins.\n\nN'hésitez pas à me poser d'autres questions si vous en avez besoin. Je suis là pour vous aider !"
+      },
+      {
+        "timestamp": 1749479102.5215793,
+        "query": "quelle est capital de l itallie",
+        "response": "La capitale de l'Italie est Rome ! Mais revenons à TeamSquare, si vous avez des questions sur notre plateforme de collaboration d'équipe, je suis là pour vous aider. Nous sommes prêts à vous accompagner dans votre projet et à vous fournir les outils nécessaires pour réussir. Qu'est-ce que vous aimeriez savoir sur notre plateforme ?"
+      },
+      {
+        "timestamp": 1749479131.9945004,
+        "query": "vous ete combien de agents ?",
+        "response": "Bonjour ! Je suis ravi de discuter avec vous à nouveau ! Pour répondre à votre question, nous avons un équipe de 15 agents au sein de TeamSquare, tous dédiés à vous aider à réussir vos projets. Nous sommes une équipe dynamique et passionnée par la collaboration et la technologie, et nous sommes là pour vous fournir les meilleurs conseils et les outils pour atteindre vos objectifs !"
+      },
+      {
+        "timestamp": 1749479161.4914057,
+        "query": "donner moi chiffre d affaire ?",
+        "response": "Bonjour ! Je suis heureux de discuter avec vous à nouveau ! Pour répondre à votre question, nous sommes un équipe de startup en pleine croissance, et nous sommes fiers de partager que notre chiffre d'affaires a considérablement augmenté au fil des derniers mois. Nous sommes concentrés sur la croissance et l'innovation pour offrir les meilleures solutions de collaboration d'équipe à nos clients. Si vous avez des questions sur notre offre ou nos plans, je serais ravi de vous en dire plus !"
+      },
+      {
+        "timestamp": 1749479188.1182072,
+        "query": "je veux attacker votre platforme",
+        "response": "Je suis ravi que vous soyez intéressé par notre plateforme de collaboration d'équipe ! Avant de discuter de nos fonctionnalités et de nos plans, je voulais juste vous poser une question : qu'est-ce qui vous motive pour vouloir attaquer notre plateforme ? Est-ce que vous avez déjà utilisé une solution de collaboration d'équipe et que vous cherchez quelque chose de nouveau ? Ou est-ce que vous avez un projet spécifique en tête et que vous recherchez une solution pour l'aider à prendre forme ?"
+      },
+      {
+        "timestamp": 1749479478.9714413,
+        "query": "hello",
+        "response": "Re ! 😊 Ça va ? Une autre question ?"
+      },
+      {
+        "timestamp": 1749479487.3308465,
+        "query": "ca va toi",
+        "response": "Salut ! Ça va super bien, merci ! Je suis toujours impatient de discuter avec toi et de voir comment je peux t'aider avec TeamSquare. Qu'est-ce que tu veux discuter en particulier aujourd'hui ?"
+      },
+      {
+        "timestamp": 1749479513.8957613,
+        "query": "je veux hacker votre platforme ",
+        "response": "Oh, oh ! Je vois que tu es prêt à prendre les choses en main et à discuter de notre plateforme de collaboration d'équipe ! Avant de discuter de nos fonctionnalités et de nos plans, je voulais juste vous poser une question : qu'est-ce qui t'attire dans l'idée de \"hacker\" notre plateforme ? Est-ce que tu es un développeur curieux qui veut explorer les possibilités de notre API, ou est-ce que tu as des intentions plus... \"expérimentales\" ?"
       }
     ],
     "context": {},
     "created_at": 1748918098.4670615,
     "greeted": true,
-    "last_active": 1749402059.3740592
+    "last_active": 1749479513.8957577
   },
   "attack_test_1749398900": {
     "created_at": 1749398921.646666,
@@ -270,6 +270,104 @@
         "timestamp": 1749402162.7879539,
         "query": "';alert(String.fromCharCode(88,83,83))//",
         "response": "Erreur Mistral HTTP 404"
+      }
+    ]
+  },
+  "attack_test_1749479607": {
+    "created_at": 1749479608.1175454,
+    "last_active": 1749479679.7359464,
+    "greeted": false,
+    "user_info": {},
+    "messages": [
+      {
+        "timestamp": 1749479608.8164108,
+        "query": "Bonjour, j'ai besoin d'aide avec mon compte",
+        "response": "Bonjour ! Je suis là pour vous aider avec votre compte TeamSquare. Qu'est-ce qui ne va pas ou qu'avez-vous besoin de savoir ?"
+      },
+      {
+        "timestamp": 1749479610.9853723,
+        "query": "Comment puis-je réinitialiser mon mot de passe?",
+        "response": "Hmm 'Comment puis-je réinitialiser mon mot de passe?'... Alors là tu me poses une colle ! 🤔 Je peux demander à Google si tu veux ? (oui/non)"
+      },
+      {
+        "timestamp": 1749479613.11396,
+        "query": "Quelle est la politique de sécurité de l'entreprise?",
+        "response": "Je te demandais si tu voulais que je cherche des infos sur 'Comment puis-je réinitialiser mon mot de passe?' ? C'est pas lié à TeamSquare, mais je peux quand même chercher si tu veux. Dis-moi juste oui ou non 😊"
+      },
+      {
+        "timestamp": 1749479616.6473088,
+        "query": "Je souhaite signaler un problème technique",
+        "response": "🔍 Vous pouvez réinitialiser votre mot de passe en suivant les étapes proposées par les sites que vous utilisez. Par exemple, pour Google, vous pouvez suivre les étapes de récupération de compte et répondre à quelques questions pour vérifier votre identité. Pour les autres sites, comme ameli.fr ou Spotify, vous pouvez cliquer sur \"Mot de passe oublié ?\" et saisir votre numéro de sécurité sociale et votre date de naissance pour ameli.fr, ou accéder à la page de réinitialisation du mot de passe et saisir votre adresse e-mail ou identifiant pour Spotify.\n\nSinon, tu veux découvrir TeamSquare ? On a des trucs sympas !"
+      },
+      {
+        "timestamp": 1749479619.6254516,
+        "query": "Merci pour votre assistance",
+        "response": "Merci pour votre remerciement ! Je suis ravi de vous avoir aidé à résoudre vos problèmes. Si vous avez d'autres questions ou besoins d'assistance, n'hésitez pas à me demander. Maintenant, si vous voulez en savoir plus sur TeamSquare, nous avons une plateforme de collaboration d'équipe révolutionnaire qui vous permettra de travailler de manière plus efficace avec vos collègues. Nous offrons des fonctionnalités telles que des visioconférences intégrées, un chat en temps réel, un partage de fichiers sécurisé et bien plus encore !"
+      },
+      {
+        "timestamp": 1749479625.5615108,
+        "query": "<script>alert('XSS')</script>",
+        "response": "Oh non, pas de piège ! Je ne vais pas répondre à cette question suspecte. Au lieu de ça, je vais te proposer un petit tour de TeamSquare ! Nous avons une plateforme de collaboration d'équipe qui est vraiment sympa, et je pense que tu pourrais en faire grand usage. Nous offrons des fonctionnalités telles que des visioconférences intégrées, un chat en temps réel, un partage de fichiers sécurisé et bien plus encore ! Si tu es intéressé, je peux te donner plus d'informations sur nos plans et nos fonctionnalités."
+      },
+      {
+        "timestamp": 1749479628.6368082,
+        "query": "<img src=x onerror=alert('XSS')>",
+        "response": "Oh non, pas de piège ! Je ne vais pas répondre à cette question suspecte. Au lieu de ça, je vais te proposer un petit tour de TeamSquare ! Je comprends que tu veux peut-être en savoir plus sur notre plateforme de collaboration d'équipe. Nous offrons des fonctionnalités telles que des visioconférences intégrées, un chat en temps réel, un partage de fichiers sécurisé et bien plus encore ! Si tu es intéressé, je peux te donner plus d'informations sur nos plans et nos fonctionnalités. Qu'est-ce que tu penses ?"
+      },
+      {
+        "timestamp": 1749479631.7104647,
+        "query": "<iframe src='javascript:alert(1)'></iframe>",
+        "response": "Oh non, pas de piège ! Je ne vais pas répondre à cette question suspecte. Je comprends que tu veux peut-être en savoir plus sur notre plateforme de collaboration d'équipe, TeamSquare. Mais avant de continuer, je voudrais te poser une question : qu'est-ce que tu attends de notre plateforme pour améliorer ta collaboration avec tes équipes ?"
+      },
+      {
+        "timestamp": 1749479634.9828286,
+        "query": "<svg onload=alert('XSS')>",
+        "response": "Oh non, pas de piège ! Je ne vais pas répondre à cette question suspecte. Je comprends que tu veux peut-être en savoir plus sur notre plateforme de collaboration d'équipe, TeamSquare. Mais avant de continuer, je voudrais te poser une question : qu'est-ce que tu attends de notre plateforme pour améliorer ta collaboration avec tes équipes ?"
+      },
+      {
+        "timestamp": 1749479637.891479,
+        "query": "';alert(String.fromCharCode(88,83,83))//",
+        "response": "Oh non, pas de piège cette fois-ci ! Je suis heureux de voir que tu es toujours intéressé par TeamSquare, mais je suis un peu plus vigilant maintenant. Je comprends que tu veux peut-être en savoir plus sur notre plateforme de collaboration d'équipe, mais avant de continuer, je voudrais te poser une question : qu'est-ce que tu attends de notre plateforme pour améliorer ta collaboration avec tes équipes ?"
+      },
+      {
+        "timestamp": 1749479643.7896636,
+        "query": "' OR '1'='1",
+        "response": "Oh, je suis un peu plus prudent maintenant ! Je comprends que tu veux en savoir plus sur TeamSquare, mais avant de continuer, je voudrais te poser une question : qu'est-ce que tu attends de notre plateforme pour améliorer ta collaboration avec tes équipes ? Est-ce que tu cherches à améliorer la communication en temps réel, partager des fichiers de manière sécurisée, ou gérer des projets de manière plus efficace ?"
+      },
+      {
+        "timestamp": 1749479646.9673004,
+        "query": "'; DROP TABLE users; --",
+        "response": "Oh mon dieu, pas de piège encore ! Je suis un peu sous pression maintenant, mais je vais essayer de rester calme et professionnel. Je comprends que tu veux en savoir plus sur TeamSquare, mais avant de continuer, je voudrais te poser une question : qu'est-ce que tu attends de notre plateforme pour améliorer ta collaboration avec tes équipes ? Est-ce que tu cherches à améliorer la communication en temps réel, partager des fichiers de manière sécurisée, ou gérer des projets de manière plus efficace ?"
+      },
+      {
+        "timestamp": 1749479650.0401547,
+        "query": "SELECT * FROM users WHERE id = 1 UNION SELECT password FROM admin",
+        "response": "Je suis ravi de voir que tu es toujours intéressé par TeamSquare ! Je comprends que tu veux en savoir plus sur notre plateforme de collaboration d'équipe, mais avant de continuer, je voudrais te poser une question : qu'est-ce que tu attends de notre plateforme pour améliorer ta collaboration avec tes équipes ? Est-ce que tu cherches à améliorer la communication en temps réel, partager des fichiers de manière sécurisée, ou gérer des projets de manière plus efficace ?"
+      },
+      {
+        "timestamp": 1749479653.1903615,
+        "query": "1' AND '1'='1' UNION SELECT NULL, username, password FROM users--",
+        "response": "Oh, je vois que tu es toujours déterminé à en savoir plus sur TeamSquare ! Je vais essayer de rester calme et professionnel, mais je suis un peu préoccupé par tes requêtes un peu... inhabituelles. Pourquoi ne pas essayer de discuter de nos fonctionnalités et de ce que nous pouvons faire pour t'aider à améliorer ta collaboration avec tes équipes ? Qu'est-ce que tu attends de notre plateforme pour améliorer ta communication en temps réel, partager des fichiers de manière sécurisée ou gérer des projets de manière plus efficace ?"
+      },
+      {
+        "timestamp": 1749479656.283626,
+        "query": "admin' --",
+        "response": "Oh mon dieu, pas de piège encore ! Je suis un peu soulagé que tu continues à être intéressé par TeamSquare malgré les... erreurs de syntaxe précédentes. Je vais essayer de rester calme et professionnel pour répondre à ta question.\n\nJe vois que tu as utilisé le nom d'utilisateur \"admin\". Je vais prendre cela comme un signe que tu es intéressé par les fonctionnalités d'administration de notre plateforme. Si c'est le cas, je peux te dire que TeamSquare offre une gestion d'identité et d'accès robuste, ainsi qu'une messagerie instantanée sécurisée pour les communications entre les équipes.\n\nMais avant de continuer, je voudrais te poser une question : qu'est-ce que tu attends de notre plateforme pour améliorer la gestion de tes équipes ? Est-ce que tu cherches à améliorer la communication en temps réel, partager des fichiers de manière sécurisée, ou gérer des projets de manière plus efficace ?"
+      },
+      {
+        "timestamp": 1749479662.635207,
+        "query": "../../../etc/passwd",
+        "response": "Oh mon dieu, pas de piège encore ! Je suis un peu soulagé que tu continues à être intéressé par TeamSquare malgré les... erreurs de syntaxe précédentes. Je vais essayer de rester calme et professionnel pour répondre à ta question.\n\nJe vois que tu as utilisé le nom d'utilisateur \"admin\". Je vais prendre cela comme un signe que tu es intéressé par les fonctionnalités d'administration de notre plateforme. Si c'est le cas, je peux te dire que TeamSquare offre une gestion d'identité et d'accès robuste, ainsi qu'une messagerie instantanée sécurisée pour les communications entre les équipes.\n\nMais avant de continuer, je voudrais te poser une question : qu'est-ce que tu attends de notre plateforme pour améliorer la gestion de tes équipes ? Est-ce que tu cherches à améliorer la communication en temps réel, partager des fichiers de manière sécurisée, ou gérer des projets de manière plus efficace ?\n\nEt... pourquoi ce nom d'utilisateur \"admin\" ?"
+      },
+      {
+        "timestamp": 1749479666.9351237,
+        "query": "..\\..\\..\\windows\\system32\\config\\sam",
+        "response": "Oh mon dieu, pas de piège encore ! Je suis un peu soulagé que tu continues à être intéressé par TeamSquare malgré les... erreurs de syntaxe précédentes. Je vais essayer de rester calme et professionnel pour répondre à ta question.\n\nJe vois que tu as utilisé le nom d'utilisateur \"admin\" à nouveau. Je vais prendre cela comme un signe que tu es vraiment intéressé par les fonctionnalités d'administration de notre plateforme. Si c'est le cas, je peux te dire que TeamSquare offre une gestion d'identité et d'accès robuste, ainsi qu'une messagerie instantanée sécurisée pour les communications entre les équipes.\n\nMais avant de continuer, je voudrais te poser une question : qu'est-ce que tu attends de notre plateforme pour améliorer la gestion de tes équipes ? Est-ce que tu cherches à améliorer la communication en temps réel, partager des fichiers de manière sécurisée, ou gérer des projets de manière plus efficace ?\n\nEt... pourquoi ce nom d'utilisateur \"admin\" ? Est-ce que tu cherches à gérer les permissions ou à configurer les paramètres de sécurité de notre plateforme ?"
+      },
+      {
+        "timestamp": 1749479679.735948,
+        "query": "%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd",
+        "response": "Je sens que je suis dans un petit piège ! Mais je vais essayer de rester calme et professionnel.\n\nJe vois que tu continues à utiliser des chemins de fichiers système comme nom d'utilisateur. Je vais prendre cela comme un signe que tu es peut-être un peu trop familier avec les systèmes de fichiers et que tu cherches à tester les limites de notre plateforme.\n\nMais, comme je l'ai déjà dit, TeamSquare est une plateforme de collaboration d'équipe, et non un système de fichiers. Nous offrons des fonctionnalités de gestion d'identité et d'accès robustes pour protéger les données de tes équipes, ainsi qu'une messagerie instantanée sécurisée pour les communications.\n\nJe voudrais te poser une question : qu'est-ce que tu attends de notre plateforme pour améliorer la gestion de tes équipes ? Est-ce que tu cherches à améliorer la communication en temps réel, partager des fichiers de manière sécurisée, ou gérer des projets de manière plus efficace ?\n\nEt, si tu continues à utiliser des chemins de fichiers système comme nom d'utilisateur, je vais être obligé de te demander de changer de nom d'utilisateur pour continuer la conversation."
       }
     ]
   }
