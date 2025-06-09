@@ -13,7 +13,7 @@ class HybridLLMManagerGemini:
         self.gemini_model = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
         
         # Configuration Groq
-        self.groq_api_key = os.getenv("GROQ_API_KEY", "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")
+        self.groq_api_key = os.getenv("GROQ_API_KEY")
         self.groq_model = os.getenv("GROQ_MODEL", "llama3-8b-8192")
         
         # Configuration des limites (Gemini a des quotas généreux)
