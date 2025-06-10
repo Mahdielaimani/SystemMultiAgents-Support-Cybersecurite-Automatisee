@@ -1,4 +1,4 @@
-// app/page.tsx - Version simplifiée pour utilisateurs
+// app/page.tsx - Version avec gestion d'erreurs robuste
 "use client"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -7,7 +7,24 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Send, MessageSquare, User, Activity, Sparkles, Shield, Moon, Sun, Zap, Brain, Settings } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { 
+  Send, 
+  MessageSquare, 
+  User, 
+  Activity, 
+  Sparkles, 
+  Shield, 
+  Moon, 
+  Sun, 
+  Zap, 
+  Brain, 
+  Settings,
+  AlertTriangle,
+  Wifi,
+  WifiOff,
+  RefreshCw
+} from "lucide-react"
 import { useRouter } from "next/navigation"
 
 interface Message {
@@ -15,22 +32,18 @@ interface Message {
   content: string
   sender: "user" | "assistant"
   timestamp: string
-  agent?: "support"
   metadata?: {
     source?: string
-    agent?: string
     confidence?: number
+    fallback_used?: boolean
+    error?: boolean
   }
 }
 
-interface Agent {
-  id: string
-  name: string
-  type: "support"
-  status: "active" | "inactive"
-  icon: any
-  color: string
-  description: string
+interface ConnectionStatus {
+  backend: boolean
+  fallback: boolean
+  lastCheck: string
 }
 
 export default function Home() {
@@ -38,21 +51,14 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [selectedAgent, setSelectedAgent] = useState<string>("support")
   const [isDark, setIsDark] = useState(false)
+  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>({
+    backend: true,
+    fallback: true,
+    lastCheck: new Date().toISOString()
+  })
+  const [showConnectionAlert, setShowConnectionAlert] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
-
-  const agents: Agent[] = [
-    {
-      id: "support",
-      name: "Agent Support TeamSquare",
-      type: "support",
-      status: "active",
-      icon: MessageSquare,
-      color: "bg-blue-500",
-      description: "Support technique et commercial 24/7",
-    }
-  ]
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -61,6 +67,43 @@ export default function Home() {
   useEffect(() => {
     scrollToBottom()
   }, [messages])
+
+  // Vérifier la connexion au démarrage et périodiquement
+  useEffect(() => {
+    checkConnection()
+    const interval = setInterval(checkConnection, 60000) // Vérifier toutes les minutes
+    return () => clearInterval(interval)
+  }, [])
+
+  const checkConnection = async () => {
+    try {
+      const response = await fetch("/api/chat", {
+        method: "GET",
+        signal: AbortSignal.timeout(5000)
+      })
+      
+      const data = await response.json()
+      
+      setConnectionStatus({
+        backend: data.status === "healthy" || response.ok,
+        fallback: data.fallback_available !== false,
+        lastCheck: new Date().toISOString()
+      })
+
+      // Masquer l'alerte si la connexion est rétablie
+      if (response.ok) {
+        setShowConnectionAlert(false)
+      }
+    } catch (error) {
+      console.warn("Connection check failed:", error)
+      setConnectionStatus(prev => ({
+        ...prev,
+        backend: false,
+        lastCheck: new Date().toISOString()
+      }))
+      setShowConnectionAlert(true)
+    }
+  }
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return
@@ -94,24 +137,36 @@ export default function Home() {
           content: data.content,
           sender: "assistant",
           timestamp: new Date().toISOString(),
-          agent: selectedAgent as any,
-          metadata: data.metadata,
+          metadata: {
+            source: data.metadata?.source || "assistant",
+            confidence: data.metadata?.confidence,
+            fallback_used: data.metadata?.fallback_used || data.metadata?.local_generation
+          }
         }
 
         setMessages((prev) => [...prev, assistantMessage])
+        
+        // Masquer l'alerte de connexion si la réponse arrive
+        setShowConnectionAlert(false)
       } else {
-        throw new Error("Erreur de communication")
+        throw new Error(`HTTP ${response.status}`)
       }
     } catch (error) {
       console.error("Erreur:", error)
       
+      // Afficher l'alerte de connexion
+      setShowConnectionAlert(true)
+      
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: "Désolé, je rencontre un problème technique. Veuillez réessayer.",
+        content: "Je rencontre des difficultés de connexion. Mes réponses peuvent être limitées en mode hors ligne. Veuillez vérifier votre connexion internet.",
         sender: "assistant",
         timestamp: new Date().toISOString(),
-        agent: selectedAgent as any,
-        metadata: { source: "error" },
+        metadata: { 
+          source: "error", 
+          error: true,
+          fallback_used: true
+        },
       }
       
       setMessages((prev) => [...prev, errorMessage])
@@ -122,7 +177,6 @@ export default function Home() {
 
   const renderMessage = (message: Message) => {
     const isUser = message.sender === "user"
-    const agent = agents.find((a) => a.id === message.agent) || agents[0]
 
     return (
       <div key={message.id} className="w-full flex justify-center mb-4">
@@ -132,8 +186,8 @@ export default function Home() {
               <div className="flex items-start gap-3">
                 {!isUser && (
                   <Avatar className="w-10 h-10 flex-shrink-0">
-                    <div className={`w-full h-full ${agent.color} flex items-center justify-center rounded-full`}>
-                      <agent.icon className="w-5 h-5 text-white" />
+                    <div className={`w-full h-full bg-blue-500 flex items-center justify-center rounded-full`}>
+                      <MessageSquare className="w-5 h-5 text-white" />
                     </div>
                   </Avatar>
                 )}
@@ -145,7 +199,7 @@ export default function Home() {
                       : isDark
                       ? "bg-gray-800 border-gray-700 text-white"
                       : "bg-white border border-gray-200"
-                  }`}
+                  } ${message.metadata?.error ? "border-red-500" : ""}`}
                 >
                   <CardContent className="p-3">
                     {!isUser && (
@@ -153,9 +207,12 @@ export default function Home() {
                         <span className={`text-sm font-medium ${
                           isDark ? "text-gray-300" : "text-gray-700"
                         }`}>
-                          {agent.name}
+                          Assistant TeamSquare
                         </span>
-                        <div className="w-2 h-2 bg-green-400 rounded-full" />
+                        <div className={`w-2 h-2 rounded-full ${
+                          message.metadata?.error ? "bg-red-400" :
+                          message.metadata?.fallback_used ? "bg-yellow-400" : "bg-green-400"
+                        }`} />
                       </div>
                     )}
 
@@ -167,12 +224,24 @@ export default function Home() {
 
                     {message.metadata && !isUser && (
                       <div className="mt-2 flex flex-wrap gap-2">
-                        <Badge variant="secondary" className="text-xs">
+                        <Badge 
+                          variant="secondary" 
+                          className={`text-xs ${
+                            message.metadata.error ? "bg-red-100 text-red-800" :
+                            message.metadata.fallback_used ? "bg-yellow-100 text-yellow-800" :
+                            "bg-green-100 text-green-800"
+                          }`}
+                        >
                           {message.metadata.source || "assistant"}
                         </Badge>
                         {message.metadata.confidence && (
                           <Badge variant="outline" className="text-xs">
                             Confiance: {(message.metadata.confidence * 100).toFixed(0)}%
+                          </Badge>
+                        )}
+                        {message.metadata.fallback_used && (
+                          <Badge variant="outline" className="text-xs text-yellow-600">
+                            Mode dégradé
                           </Badge>
                         )}
                       </div>
@@ -209,6 +278,28 @@ export default function Home() {
         isDark ? "bg-gray-900" : "bg-gray-50"
       }`}
     >
+      {/* Alerte de connexion */}
+      {showConnectionAlert && (
+        <Alert className="absolute top-4 left-4 right-4 z-50 bg-yellow-50 border-yellow-200">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription className="flex items-center justify-between">
+            <span>
+              {!connectionStatus.backend ? "Connexion au serveur interrompue. " : ""}
+              Fonctionnement en mode dégradé.
+            </span>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              onClick={checkConnection}
+              className="ml-2"
+            >
+              <RefreshCw className="w-4 h-4 mr-1" />
+              Réessayer
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* En-tête avec contrôles */}
       <div
         className={`py-8 border-b transition-colors duration-300 text-center relative ${
@@ -241,11 +332,24 @@ export default function Home() {
         <h1 className="text-4xl font-bold mb-2">TeamSquare Assistant IA</h1>
         <p className="text-xl opacity-90">Support intelligent pour votre équipe</p>
 
-        {/* Indicateur de statut */}
+        {/* Indicateur de statut de connexion */}
         <div className="absolute bottom-4 left-4 flex items-center gap-2">
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-900/50 border border-green-500">
-            <Shield className="w-4 h-4" />
-            <span className="text-sm font-medium">Système sécurisé</span>
+          <div className={`flex items-center gap-2 px-3 py-1 rounded-full border ${
+            connectionStatus.backend 
+              ? "bg-green-900/50 border-green-500" 
+              : "bg-red-900/50 border-red-500"
+          }`}>
+            {connectionStatus.backend ? (
+              <>
+                <Wifi className="w-4 h-4" />
+                <span className="text-sm font-medium">Connecté</span>
+              </>
+            ) : (
+              <>
+                <WifiOff className="w-4 h-4" />
+                <span className="text-sm font-medium">Mode hors ligne</span>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -262,59 +366,59 @@ export default function Home() {
             Assistant IA
           </h2>
 
-          <div className="space-y-4">
-            {agents.map((agent) => (
-              <Card
-                key={agent.id}
-                className={`cursor-pointer transition-all transform hover:scale-105 ${
-                  selectedAgent === agent.id
-                    ? "ring-2 ring-blue-500 shadow-lg"
-                    : ""
-                } ${
-                  isDark ? "bg-gray-700 hover:bg-gray-600" : "hover:shadow-md"
-                }`}
-                onClick={() => setSelectedAgent(agent.id)}
-              >
-                <CardContent className="p-4">
-                  <div className="flex items-start gap-3">
-                    <div className={`p-3 rounded-full ${agent.color}`}>
-                      <agent.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <h3 className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>
-                          {agent.name}
-                        </h3>
-                        <div className="flex items-center gap-1">
-                          <div className="w-2 h-2 rounded-full bg-green-400" />
-                          <span className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}>
-                            En ligne
-                          </span>
-                        </div>
-                      </div>
-                      <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"}`}>
-                        {agent.description}
-                      </p>
-                      <div className="mt-2 space-y-1 text-xs">
-                        <div className="flex items-center gap-2">
-                          <Activity className="w-3 h-3" />
-                          <span>Réponses en temps réel</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Brain className="w-3 h-3" />
-                          <span>IA hybride avancée</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Sparkles className="w-3 h-3" />
-                          <span>Mémoire conversationnelle</span>
-                        </div>
-                      </div>
+          <Card
+            className={`cursor-pointer transition-all transform hover:scale-105 ring-2 ring-blue-500 shadow-lg ${
+              isDark ? "bg-gray-700 hover:bg-gray-600" : "hover:shadow-md"
+            }`}
+          >
+            <CardContent className="p-4">
+              <div className="flex items-start gap-3">
+                <div className="p-3 rounded-full bg-blue-500">
+                  <MessageSquare className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>
+                      Agent Support TeamSquare
+                    </h3>
+                    <div className="flex items-center gap-1">
+                      <div className={`w-2 h-2 rounded-full ${
+                        connectionStatus.backend ? "bg-green-400" : 
+                        connectionStatus.fallback ? "bg-yellow-400" : "bg-red-400"
+                      }`} />
+                      <span className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}>
+                        {connectionStatus.backend ? "En ligne" : 
+                         connectionStatus.fallback ? "Mode dégradé" : "Hors ligne"}
+                      </span>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  <p className={`text-sm ${isDark ? "text-gray-300" : "text-gray-600"}`}>
+                    Support technique et commercial 24/7
+                  </p>
+                  <div className="mt-2 space-y-1 text-xs">
+                    <div className="flex items-center gap-2">
+                      <Activity className="w-3 h-3" />
+                      <span>Réponses en temps réel</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Brain className="w-3 h-3" />
+                      <span>IA hybride avancée</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-3 h-3" />
+                      <span>Mémoire conversationnelle</span>
+                    </div>
+                    {!connectionStatus.backend && (
+                      <div className="flex items-center gap-2 text-yellow-600">
+                        <Shield className="w-3 h-3" />
+                        <span>Mode sécurisé hors ligne</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Informations sur TeamSquare */}
           <div className="mt-6 p-4 bg-blue-500/10 border-2 border-blue-500/30 rounded-lg">
@@ -334,6 +438,41 @@ export default function Home() {
                 <span className={isDark ? "text-gray-300" : "text-gray-600"}>Support</span>
                 <span className="font-medium text-purple-500">24/7</span>
               </div>
+              <div className="flex justify-between">
+                <span className={isDark ? "text-gray-300" : "text-gray-600"}>Statut</span>
+                <span className={`font-medium ${
+                  connectionStatus.backend ? "text-green-500" : "text-yellow-500"
+                }`}>
+                  {connectionStatus.backend ? "Opérationnel" : "Mode dégradé"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Informations de connexion */}
+          <div className="mt-4 p-3 bg-gray-500/10 border border-gray-500/30 rounded-lg">
+            <h4 className={`text-sm font-medium mb-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+              État de la connexion
+            </h4>
+            <div className="space-y-1 text-xs">
+              <div className="flex justify-between">
+                <span>Backend principal</span>
+                <span className={connectionStatus.backend ? "text-green-500" : "text-red-500"}>
+                  {connectionStatus.backend ? "✓ Connecté" : "✗ Déconnecté"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Mode de secours</span>
+                <span className={connectionStatus.fallback ? "text-green-500" : "text-red-500"}>
+                  {connectionStatus.fallback ? "✓ Disponible" : "✗ Indisponible"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Dernière vérification</span>
+                <span className="text-gray-500">
+                  {new Date(connectionStatus.lastCheck).toLocaleTimeString()}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -350,7 +489,7 @@ export default function Home() {
                   </h3>
                   <p className={`${isDark ? "text-gray-400" : "text-gray-600"} mb-4`}>
                     Notre assistant IA est là pour vous aider avec toutes vos questions sur TeamSquare.
-                    Demandez-moi n'importe quoi !
+                    {!connectionStatus.backend && " Actuellement en mode hors ligne avec fonctionnalités limitées."}
                   </p>
                   <div className="grid grid-cols-1 gap-2 text-sm">
                     <div className="flex items-center gap-2 justify-center">
@@ -385,7 +524,11 @@ export default function Home() {
             <div className="max-w-4xl mx-auto">
               <div className="flex gap-3">
                 <Input
-                  placeholder="Posez-moi une question sur TeamSquare..."
+                  placeholder={
+                    connectionStatus.backend 
+                      ? "Posez-moi une question sur TeamSquare..."
+                      : "Posez-moi une question (mode hors ligne)..."
+                  }
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSend()}
@@ -413,7 +556,7 @@ export default function Home() {
               <div className="mt-3 flex flex-wrap gap-2">
                 {[
                   "Quels sont les prix ?",
-                  "Fonctionnalités disponibles",
+                  "Fonctionnalités disponibles", 
                   "Comment ça marche ?",
                   "Support technique"
                 ].map((suggestion) => (
@@ -433,6 +576,15 @@ export default function Home() {
                   </Button>
                 ))}
               </div>
+
+              {/* Statut de connexion en bas */}
+              {!connectionStatus.backend && (
+                <div className="mt-2 text-center">
+                  <span className="text-xs text-yellow-600">
+                    Mode hors ligne - Fonctionnalités limitées disponibles
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
