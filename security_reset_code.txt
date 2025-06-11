@@ -1,0 +1,44 @@
+
+# Code à ajouter dans api/server.py pour reset de sécurité au démarrage
+
+# ============= RESET SÉCURITÉ AU DÉMARRAGE =============
+RESET_SECURITY_ON_STARTUP = os.getenv("RESET_SECURITY_ON_STARTUP", "false").lower() == "true"
+
+if RESET_SECURITY_ON_STARTUP:
+    from api.shared_state import system_state, security_alerts, user_activities, active_sessions
+    
+    # Reset complet de l'état sécurité
+    system_state.clear()
+    system_state.update({
+        "blocked": False,
+        "threat_level": "safe",
+        "block_reason": None,
+        "last_block_time": None,
+        "active_sessions": {},
+        "total_threats_detected": 0,
+        "last_scan": datetime.now().isoformat(),
+        "active_threats": []
+    })
+    
+    security_alerts.clear()
+    user_activities.clear()
+    active_sessions.clear()
+    
+    print("✅ Agent Sécurité réinitialisé au démarrage")
+    
+    # Désactiver automatiquement après reset
+    if os.getenv("AUTO_DISABLE_SECURITY_RESET", "true").lower() == "true":
+        # Mettre à jour le fichier .env
+        try:
+            with open('.env', 'r') as f:
+                lines = f.readlines()
+            
+            with open('.env', 'w') as f:
+                for line in lines:
+                    if line.startswith('RESET_SECURITY_ON_STARTUP='):
+                        f.write('RESET_SECURITY_ON_STARTUP=false\n')
+                    else:
+                        f.write(line)
+        except:
+            pass
+# ============= FIN RESET SÉCURITÉ =============

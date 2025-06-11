@@ -1,0 +1,20 @@
+{
+  "default": {
+    "created_at": 1749660921.3272245,
+    "last_active": 1749660950.129475,
+    "greeted": true,
+    "user_info": {},
+    "messages": [
+      {
+        "timestamp": 1749660921.3272686,
+        "query": "hello monsieur",
+        "response": "Coucou ! 😊 Assistant TeamSquare ici ! Comment je peux t'aider aujourd'hui ?"
+      },
+      {
+        "timestamp": 1749660950.1294787,
+        "query": "le speed de train in france",
+        "response": "Bonjour ! Je vois que tu as une question sur le speed de train en France ? Nous sommes une équipe de collaboration à distance, mais nous sommes toujours prêts à aider ! Pour répondre à ta question, je peux te dire que les trains à grande vitesse en France, comme le TGV, peuvent atteindre des vitesses allant jusqu'à 320 km/h. Mais si tu as d'autres questions ou si tu veux en savoir plus sur les transports en France, n'hésite pas à me demander !"
+      }
+    ]
+  }
+}

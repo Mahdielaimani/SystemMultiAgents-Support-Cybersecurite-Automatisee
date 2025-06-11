@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Serveur FastAPI principal - Version complète avec communication inter-agents
-Support pour agents agentic et cybersécurité avec communication temps réel
+Serveur FastAPI principal - Version avec Reset Modulaire
+Support pour reset sélectif des agents via variables d'environnement
 """
 import logging
 import sys
@@ -14,6 +14,10 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
+from dotenv import load_dotenv
+
+# Charger les variables d'environnement
+load_dotenv()
 
 # Configuration du logging
 logging.basicConfig(
@@ -30,31 +34,70 @@ logger = logging.getLogger(__name__)
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-# ============= DÉBUT PATCH RESET COMPLET =============
-# Vérifier si on doit réinitialiser
-RESET_ON_STARTUP = os.getenv("RESET_SYSTEM", "false").lower() == "true"
+# ============= DÉBUT SYSTÈME DE RESET MODULAIRE =============
 
-if RESET_ON_STARTUP:
-    print("🔄 RÉINITIALISATION COMPLÈTE DU SYSTÈME AU DÉMARRAGE...")
+def should_reset(component: str) -> bool:
+    """Vérifie si un composant doit être réinitialisé"""
+    env_var = f"RESET_{component.upper()}_ON_STARTUP"
+    return os.getenv(env_var, "false").lower() == "true"
+
+def disable_reset_in_env(component: str):
+    """Désactive le reset dans le fichier .env"""
+    if os.getenv(f"AUTO_DISABLE_{component.upper()}_RESET", "true").lower() != "true":
+        return
     
-    # Supprimer les imports en cache pour forcer le rechargement
+    try:
+        env_path = '.env'
+        if not os.path.exists(env_path):
+            return
+        
+        with open(env_path, 'r') as f:
+            lines = f.readlines()
+        
+        env_var = f"RESET_{component.upper()}_ON_STARTUP"
+        with open(env_path, 'w') as f:
+            for line in lines:
+                if line.strip().startswith(f'{env_var}='):
+                    f.write(f'{env_var}=false\n')
+                    logger.info(f"✅ Auto-désactivation du reset {component}")
+                else:
+                    f.write(line)
+    except Exception as e:
+        logger.error(f"Erreur désactivation reset {component}: {e}")
+
+# Reset global du système (tous les composants)
+RESET_SYSTEM = should_reset("SYSTEM")
+
+if RESET_SYSTEM:
+    print("\n" + "="*70)
+    print("🔄 RÉINITIALISATION COMPLÈTE DU SYSTÈME AU DÉMARRAGE")
+    print("="*70 + "\n")
+    
+    # Supprimer TOUS les modules en cache
     modules_to_reset = [
         'api.shared_state',
         'api.cybersecurity_routes',
-        'api.agentic_routes'
+        'api.agentic_routes',
+        'agents.agentic_agent',
+        'agents.cybersecurity_agent'
     ]
     
     for module in modules_to_reset:
         if module in sys.modules:
             del sys.modules[module]
     
-    print("✅ Modules réinitialisés")
+    print("✅ Tous les modules réinitialisés")
 
-# Maintenant importer shared_state APRÈS le reset
+# Importer shared_state APRÈS le reset système si nécessaire
 from api.shared_state import system_state, security_alerts, user_activities, active_sessions
 
-# Forcer la réinitialisation complète si demandé
-if RESET_ON_STARTUP:
+# ============= RESET SÉLECTIF PAR COMPOSANT =============
+
+# 1. Reset de l'Agent de Sécurité
+if should_reset("SECURITY"):
+    logger.warning("🛡️ RESET DE L'AGENT DE SÉCURITÉ AU DÉMARRAGE")
+    
+    # Réinitialiser l'état de sécurité
     system_state.clear()
     system_state.update({
         "blocked": False,
@@ -67,19 +110,61 @@ if RESET_ON_STARTUP:
         "active_threats": []
     })
     
-    # Vider toutes les collections
+    # Vider les collections de sécurité
     security_alerts.clear()
     user_activities.clear()
     active_sessions.clear()
     
-    print(f"✅ État système réinitialisé - Alertes: {len(security_alerts)}, Sessions: {len(user_activities)}")
-# ============= FIN PATCH RESET COMPLET =============
+    logger.info(f"✅ Agent Sécurité réinitialisé - Alertes: 0, Sessions: 0")
+    
+    # Auto-désactiver après reset
+    disable_reset_in_env("SECURITY")
+
+# 2. Reset de l'Agent Support (si module disponible)
+if should_reset("SUPPORT"):
+    logger.warning("🤖 RESET DE L'AGENT SUPPORT AU DÉMARRAGE")
+    
+    try:
+        # Vider les fichiers de mémoire
+        import json
+        
+        memory_files = [
+            "data/memory/conversations.json",
+            "data/memory/agent_memory.json"
+        ]
+        
+        for file_path in memory_files:
+            if os.path.exists(file_path):
+                with open(file_path, 'w') as f:
+                    json.dump({}, f)
+                logger.info(f"✅ Vidé: {file_path}")
+        
+        # Nettoyer ChromaDB si existe
+        import shutil
+        chroma_path = "data/vector_db/chroma_db"
+        if os.path.exists(chroma_path):
+            shutil.rmtree(chroma_path)
+            os.makedirs(chroma_path, exist_ok=True)
+            logger.info("✅ ChromaDB réinitialisé")
+        
+        # Auto-désactiver après reset
+        disable_reset_in_env("SUPPORT")
+        
+    except Exception as e:
+        logger.error(f"Erreur reset Agent Support: {e}")
+
+# Reset complet système (override les individuels)
+if RESET_SYSTEM:
+    # Désactiver le reset système pour le prochain démarrage
+    disable_reset_in_env("SYSTEM")
+
+# ============= FIN SYSTÈME DE RESET MODULAIRE =============
 
 # Créer l'application FastAPI
 app = FastAPI(
     title="NextGen-Agent API",
-    description="API pour agents IA avec sécurité intégrée",
-    version="7.0.0",
+    description="API pour agents IA avec sécurité intégrée et reset modulaire",
+    version="7.1.0",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -117,6 +202,14 @@ class AdminRequest(BaseModel):
     password: Optional[str] = None
     reason: Optional[str] = None
     severity: Optional[str] = None
+    component: Optional[str] = None  # Pour reset sélectif
+
+class ResetRequest(BaseModel):
+    """Requête de reset modulaire"""
+    components: list[str]  # ['support', 'security', 'all']
+    username: str
+    password: str
+    backup: bool = True
 
 # =============================================================================
 # ROUTES PRINCIPALES
@@ -124,9 +217,15 @@ class AdminRequest(BaseModel):
 
 @app.get("/")
 async def root():
-    """Endpoint racine"""
+    """Endpoint racine avec info de reset"""
+    reset_info = {
+        "last_system_reset": os.getenv("LAST_SYSTEM_RESET", "never"),
+        "last_security_reset": os.getenv("LAST_SECURITY_RESET", "never"),
+        "last_support_reset": os.getenv("LAST_SUPPORT_RESET", "never")
+    }
+    
     return {
-        "message": "NextGen-Agent API v7.0.0",
+        "message": "NextGen-Agent API v7.1.0",
         "status": "operational",
         "timestamp": datetime.now().isoformat(),
         "services": {
@@ -134,20 +233,28 @@ async def root():
             "cybersecurity": "available", 
             "inter_agent_communication": "available",
             "admin_panel": "available"
-        }
+        },
+        "reset_info": reset_info
     }
 
 @app.get("/health")
 async def health_check():
-    """Vérification de santé globale"""
+    """Vérification de santé globale avec statut reset"""
     try:
         # Vérifier les composants
         components_status = {
             "api_server": "healthy",
             "agentic_agent": "unknown",
             "security_agent": "unknown",
-            "database": "memory",  # En mémoire pour cette version
+            "database": "memory",
             "llm_services": "unknown"
+        }
+        
+        # Statut des resets
+        reset_status = {
+            "support_reset_pending": should_reset("SUPPORT"),
+            "security_reset_pending": should_reset("SECURITY"),
+            "system_reset_pending": should_reset("SYSTEM")
         }
         
         # Tester l'agent agentic
@@ -172,9 +279,10 @@ async def health_check():
             "status": overall_status,
             "timestamp": datetime.now().isoformat(),
             "components": components_status,
+            "reset_status": reset_status,
             "system_state": system_state,
             "uptime": "running",
-            "version": "7.0.0"
+            "version": "7.1.0"
         }
         
     except Exception as e:
@@ -188,12 +296,286 @@ async def health_check():
             }
         )
 
+# =============================================================================
+# NOUVELLES ROUTES DE RESET MODULAIRE
+# =============================================================================
+
+@app.post("/api/admin/modular-reset")
+async def modular_reset(request: ResetRequest):
+    """Reset modulaire des composants spécifiques"""
+    try:
+        # Vérifier les credentials
+        if not verify_admin_credentials(request.username, request.password):
+            raise HTTPException(status_code=401, detail="Credentials invalides")
+        
+        logger.warning(f"🔄 RESET MODULAIRE demandé par {request.username}: {request.components}")
+        
+        results = {
+            "timestamp": datetime.now().isoformat(),
+            "requested_components": request.components,
+            "results": {}
+        }
+        
+        # Reset de l'agent support
+        if "support" in request.components or "all" in request.components:
+            try:
+                support_stats = await reset_support_agent(backup=request.backup)
+                results["results"]["support"] = {
+                    "status": "success",
+                    "stats": support_stats
+                }
+            except Exception as e:
+                results["results"]["support"] = {
+                    "status": "error",
+                    "error": str(e)
+                }
+        
+        # Reset de l'agent sécurité
+        if "security" in request.components or "all" in request.components:
+            try:
+                security_stats = reset_security_agent()
+                results["results"]["security"] = {
+                    "status": "success",
+                    "stats": security_stats
+                }
+            except Exception as e:
+                results["results"]["security"] = {
+                    "status": "error",
+                    "error": str(e)
+                }
+        
+        # Reset des logs
+        if "logs" in request.components or "all" in request.components:
+            try:
+                log_stats = reset_logs()
+                results["results"]["logs"] = {
+                    "status": "success",
+                    "stats": log_stats
+                }
+            except Exception as e:
+                results["results"]["logs"] = {
+                    "status": "error",
+                    "error": str(e)
+                }
+        
+        return results
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Erreur reset modulaire: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+async def reset_support_agent(backup: bool = True) -> dict:
+    """Reset de l'agent support uniquement"""
+    import json
+    import shutil
+    
+    stats = {
+        "files_cleaned": 0,
+        "memory_cleared": False,
+        "chromadb_reset": False
+    }
+    
+    # Nettoyer les fichiers mémoire
+    memory_files = [
+        "data/memory/conversations.json",
+        "data/memory/agent_memory.json"
+    ]
+    
+    for file_path in memory_files:
+        if os.path.exists(file_path):
+            if backup:
+                backup_path = f"{file_path}.backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                shutil.copy2(file_path, backup_path)
+            
+            with open(file_path, 'w') as f:
+                json.dump({}, f)
+            stats["files_cleaned"] += 1
+    
+    # Reset de la mémoire de l'agent si chargé
+    try:
+        from api.agentic_routes import agent
+        if agent and hasattr(agent, 'memory_store'):
+            agent.memory_store.clear()
+            if hasattr(agent, '_save_memory'):
+                agent._save_memory()
+            stats["memory_cleared"] = True
+    except:
+        pass
+    
+    # Reset ChromaDB
+    chroma_path = "data/vector_db/chroma_db"
+    if os.path.exists(chroma_path):
+        if backup:
+            backup_path = f"{chroma_path}_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            shutil.copytree(chroma_path, backup_path)
+        
+        shutil.rmtree(chroma_path)
+        os.makedirs(chroma_path, exist_ok=True)
+        stats["chromadb_reset"] = True
+    
+    # Mettre à jour la date du dernier reset
+    update_env_var("LAST_SUPPORT_RESET", datetime.now().isoformat())
+    
+    logger.info(f"✅ Agent Support reset - Stats: {stats}")
+    return stats
+
+def reset_security_agent() -> dict:
+    """Reset de l'agent sécurité uniquement"""
+    stats_before = {
+        "alerts": len(security_alerts),
+        "users": len(user_activities),
+        "sessions": len(active_sessions),
+        "threats": system_state.get("total_threats_detected", 0)
+    }
+    
+    # Reset complet de l'état
+    system_state.clear()
+    system_state.update({
+        "blocked": False,
+        "threat_level": "safe",
+        "block_reason": None,
+        "last_block_time": None,
+        "active_sessions": {},
+        "total_threats_detected": 0,
+        "last_scan": datetime.now().isoformat(),
+        "active_threats": []
+    })
+    
+    # Vider les collections
+    security_alerts.clear()
+    user_activities.clear()
+    active_sessions.clear()
+    
+    # Mettre à jour la date du dernier reset
+    update_env_var("LAST_SECURITY_RESET", datetime.now().isoformat())
+    
+    stats_after = {
+        "alerts": 0,
+        "users": 0,
+        "sessions": 0,
+        "threats": 0
+    }
+    
+    logger.info(f"✅ Agent Sécurité reset - Avant: {stats_before}, Après: {stats_after}")
+    
+    return {
+        "before": stats_before,
+        "after": stats_after
+    }
+
+def reset_logs() -> dict:
+    """Reset des fichiers de logs"""
+    stats = {
+        "files_cleared": 0,
+        "total_size_cleared": 0
+    }
+    
+    log_patterns = ["logs/*.log", "*.log"]
+    
+    for pattern in log_patterns:
+        log_files = list(Path(".").glob(pattern))
+        for log_file in log_files:
+            if os.path.exists(log_file):
+                # Obtenir la taille avant
+                size = os.path.getsize(log_file)
+                stats["total_size_cleared"] += size
+                
+                # Vider le fichier
+                open(log_file, 'w').close()
+                stats["files_cleared"] += 1
+    
+    logger.info(f"✅ Logs reset - Stats: {stats}")
+    return stats
+
+def update_env_var(key: str, value: str):
+    """Met à jour une variable dans le fichier .env"""
+    try:
+        env_path = '.env'
+        lines = []
+        found = False
+        
+        if os.path.exists(env_path):
+            with open(env_path, 'r') as f:
+                lines = f.readlines()
+        
+        # Mettre à jour ou ajouter la variable
+        with open(env_path, 'w') as f:
+            for line in lines:
+                if line.strip().startswith(f'{key}='):
+                    f.write(f'{key}={value}\n')
+                    found = True
+                else:
+                    f.write(line)
+            
+            if not found:
+                f.write(f'\n{key}={value}\n')
+                
+    except Exception as e:
+        logger.error(f"Erreur mise à jour .env: {e}")
+
+# =============================================================================
+# ROUTES EXISTANTES MODIFIÉES
+# =============================================================================
+
+@app.post("/api/admin/force-reset")
+async def force_system_reset(request: AdminRequest):
+    """Force la réinitialisation complète du système (compatibilité)"""
+    try:
+        # Rediriger vers le nouveau système modulaire
+        reset_request = ResetRequest(
+            components=["all"],
+            username=request.username,
+            password=request.password,
+            backup=True
+        )
+        
+        return await modular_reset(reset_request)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Erreur reset: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/admin/reset-status")
+async def get_reset_status():
+    """Obtient le statut des resets"""
+    try:
+        return {
+            "timestamp": datetime.now().isoformat(),
+            "pending_resets": {
+                "system": should_reset("SYSTEM"),
+                "support": should_reset("SUPPORT"),
+                "security": should_reset("SECURITY")
+            },
+            "last_resets": {
+                "system": os.getenv("LAST_SYSTEM_RESET", "never"),
+                "support": os.getenv("LAST_SUPPORT_RESET", "never"),
+                "security": os.getenv("LAST_SECURITY_RESET", "never")
+            },
+            "current_state": {
+                "security_alerts": len(security_alerts),
+                "active_sessions": len(active_sessions),
+                "system_blocked": system_state.get("blocked", False),
+                "threat_level": system_state.get("threat_level", "safe")
+            }
+        }
+    except Exception as e:
+        logger.error(f"Erreur status reset: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# =============================================================================
+# ROUTES EXISTANTES (INCHANGÉES)
+# =============================================================================
+
 @app.get("/status")
 async def detailed_status():
     """Status détaillé du système"""
     try:
         return {
-            "api_version": "7.0.0",
+            "api_version": "7.1.0",
             "timestamp": datetime.now().isoformat(),
             "system_state": system_state,
             "security_stats": {
@@ -213,13 +595,9 @@ async def detailed_status():
         logger.error(f"Erreur status: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# =============================================================================
-# COMMUNICATION INTER-AGENTS - CORRIGÉE
-# =============================================================================
-
 @app.post("/api/inter-agent/communicate")
 async def inter_agent_communication(request: InterAgentMessage):
-    """Communication entre agents (support <-> sécurité) - VERSION CORRIGÉE"""
+    """Communication entre agents (support <-> sécurité)"""
     try:
         logger.info(f"📨 Communication inter-agents: {request.from_agent} -> {request.to_agent}")
         
@@ -227,7 +605,6 @@ async def inter_agent_communication(request: InterAgentMessage):
         if request.from_agent == "support" and request.to_agent == "security":
             if request.message.get("action") == "verify_message":
                 try:
-                    # Import local pour éviter les dépendances circulaires
                     from api.cybersecurity_routes import SecurityAnalysisRequest, analyze_security
                     
                     analysis_request = SecurityAnalysisRequest(
@@ -253,7 +630,6 @@ async def inter_agent_communication(request: InterAgentMessage):
         # Communication Sécurité → Support  
         elif request.from_agent == "security" and request.to_agent == "support":
             if request.message.get("action") == "block_conversation":
-                # Bloquer le système
                 system_state["blocked"] = True
                 system_state["block_reason"] = request.message.get("reason", "Security threat detected")
                 system_state["threat_level"] = "danger"
@@ -267,7 +643,6 @@ async def inter_agent_communication(request: InterAgentMessage):
                     "timestamp": datetime.now().isoformat()
                 }
         
-        # Communication générale
         return {
             "status": "delivered",
             "from": request.from_agent,
@@ -280,23 +655,17 @@ async def inter_agent_communication(request: InterAgentMessage):
         logger.error(f"❌ Erreur communication inter-agents: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# =============================================================================
-# ROUTES DE BLOCAGE SYSTÈME
-# =============================================================================
-
 @app.post("/api/cybersecurity/block")
 async def block_system(request: SystemBlockRequest):
     """Bloque le système en cas de menace critique"""
     try:
         logger.warning(f"🚫 Blocage système demandé: {request.reason}")
         
-        # Mettre à jour l'état du système
         system_state["blocked"] = True
         system_state["block_reason"] = request.reason
         system_state["threat_level"] = "danger"
         system_state["last_block_time"] = datetime.now().isoformat()
         
-        # Ajouter une alerte critique
         alert = {
             "id": f"block_{datetime.now().timestamp()}",
             "type": "system",
@@ -310,7 +679,6 @@ async def block_system(request: SystemBlockRequest):
         
         security_alerts.insert(0, alert)
         
-        # Limiter à 50 alertes en mémoire
         if len(security_alerts) > 50:
             security_alerts[:] = security_alerts[:50]
         
@@ -336,7 +704,6 @@ async def unblock_system():
         system_state["threat_level"] = "safe"
         system_state["last_block_time"] = None
         
-        # Ajouter une alerte de déblocage
         alert = {
             "id": f"unblock_{datetime.now().timestamp()}",
             "type": "system",
@@ -359,15 +726,10 @@ async def unblock_system():
         logger.error(f"Erreur déblocage système: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# =============================================================================
-# ROUTES D'ADMINISTRATION SÉCURISÉE
-# =============================================================================
-
 def verify_admin_credentials(username: str, password: str) -> bool:
     """Vérifie les identifiants administrateur"""
-    # En production, utiliser un système d'authentification robuste
     admin_credentials = {
-        "admin": "security123",
+        "admin": os.getenv("ADMIN_PASSWORD", "security123"),
         "root": "admin123",
         "security": "security456"
     }
@@ -387,7 +749,7 @@ async def admin_security_panel(request: AdminRequest):
                     "status": "authenticated",
                     "username": request.username,
                     "timestamp": datetime.now().isoformat(),
-                    "permissions": ["read", "write", "block", "unblock"]
+                    "permissions": ["read", "write", "block", "unblock", "reset"]
                 }
             else:
                 logger.warning(f"❌ Tentative connexion admin échouée: {request.username}")
@@ -421,7 +783,6 @@ async def admin_security_panel(request: AdminRequest):
             }
         
         elif request.action == "generate_report":
-            # Générer un rapport de sécurité
             report = {
                 "generated_at": datetime.now().isoformat(),
                 "system_state": system_state,
@@ -450,86 +811,13 @@ async def admin_security_panel(request: AdminRequest):
         logger.error(f"Erreur admin panel: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/admin/force-reset")
-async def force_system_reset(request: AdminRequest):
-    """Force la réinitialisation complète du système"""
-    try:
-        # Vérifier les credentials admin
-        if request.action != "force_reset":
-            raise HTTPException(status_code=400, detail="Action invalide")
-        
-        if not request.username or not request.password:
-            raise HTTPException(status_code=401, detail="Credentials requis")
-        
-        if not verify_admin_credentials(request.username, request.password):
-            raise HTTPException(status_code=401, detail="Credentials invalides")
-        
-        logger.warning(f"🔄 RESET COMPLET DEMANDÉ PAR {request.username}")
-        
-        # Sauvegarder les stats avant reset
-        stats_before = {
-            "alerts": len(security_alerts),
-            "users": len(user_activities),
-            "sessions": len(active_sessions)
-        }
-        
-        # Reset complet
-        system_state.clear()
-        system_state.update({
-            "blocked": False,
-            "threat_level": "safe",
-            "block_reason": None,
-            "last_block_time": None,
-            "active_sessions": {},
-            "total_threats_detected": 0,
-            "last_scan": datetime.now().isoformat(),
-            "active_threats": []
-        })
-        
-        # Vider toutes les listes
-        security_alerts.clear()
-        user_activities.clear()
-        active_sessions.clear()
-        
-        # Nettoyer aussi les sessions de l'agent support si possible
-        try:
-            # Import de l'agent support
-            from api.agentic_routes import agent
-            if agent and hasattr(agent, 'memory_store'):
-                agent.memory_store.clear()
-                if hasattr(agent, '_save_memory'):
-                    agent._save_memory()
-                logger.info("✅ Mémoire agent support vidée")
-        except:
-            pass
-        
-        logger.info(f"✅ RESET COMPLET - Avant: {stats_before}, Après: Tout à 0")
-        
-        return {
-            "status": "success",
-            "message": "Système complètement réinitialisé",
-            "stats_before": stats_before,
-            "stats_after": {
-                "alerts": 0,
-                "users": 0,
-                "sessions": 0
-            },
-            "timestamp": datetime.now().isoformat()
-        }
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"❌ Erreur reset: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
 @app.get("/api/admin-security")
 async def get_admin_data():
     """Récupère les données d'administration"""
     try:
         return {
             "system_state": system_state,
-            "alerts": security_alerts[:20],  # 20 alertes les plus récentes
+            "alerts": security_alerts[:20],
             "user_activities": [
                 {
                     "session_id": session_id,
@@ -583,7 +871,8 @@ async def not_found_handler(request, exc):
                 "/api/agentic/chat", "/api/agentic/health",
                 "/api/cybersecurity/analyze", "/api/cybersecurity/alerts",
                 "/api/inter-agent/communicate", "/api/admin-security",
-                "/api/admin/force-reset"
+                "/api/admin/force-reset", "/api/admin/modular-reset",
+                "/api/admin/reset-status"
             ],
             "timestamp": datetime.now().isoformat()
         }
@@ -620,14 +909,11 @@ def add_security_alert(alert_type: str, severity: str, message: str, session_id:
     
     security_alerts.insert(0, alert)
     
-    # Limiter la taille
     if len(security_alerts) > 100:
         security_alerts[:] = security_alerts[:100]
     
-    # Mettre à jour les statistiques
     system_state["total_threats_detected"] += 1
     
-    # Ajuster le niveau de menace
     if severity == "critical":
         system_state["threat_level"] = "danger"
     elif severity == "high" and system_state["threat_level"] == "safe":
@@ -657,11 +943,9 @@ def update_user_activity(session_id: str, threat_score: float = 0.0, blocked: bo
 # =============================================================================
 
 if __name__ == "__main__":
-    # Configuration des dossiers
     os.makedirs("logs", exist_ok=True)
     
-    # Informations de démarrage
-    logger.info("🚀 Démarrage NextGen-Agent API v7.0.0")
+    logger.info("🚀 Démarrage NextGen-Agent API v7.1.0 avec Reset Modulaire")
     logger.info("📡 Services disponibles:")
     logger.info("   • API Principale: http://localhost:8000")
     logger.info("   • Documentation: http://localhost:8000/docs")
@@ -669,9 +953,9 @@ if __name__ == "__main__":
     logger.info("   • Cybersécurité: http://localhost:8000/api/cybersecurity/analyze")
     logger.info("   • Communication Inter-Agents: http://localhost:8000/api/inter-agent/communicate")
     logger.info("   • Admin Panel: http://localhost:8000/api/admin-security")
-    logger.info("   • Force Reset: http://localhost:8000/api/admin/force-reset")
+    logger.info("   • Reset Modulaire: http://localhost:8000/api/admin/modular-reset")
+    logger.info("   • Status Reset: http://localhost:8000/api/admin/reset-status")
     
-    # Démarrer le serveur
     uvicorn.run(
         "api.server:app",
         host="0.0.0.0",
