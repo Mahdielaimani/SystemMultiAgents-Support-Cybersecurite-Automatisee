@@ -1,4 +1,4 @@
-// app/admin-security/page.tsx - Version avec mise à jour temps réel
+// app/admin-security/page.tsx - Version complète avec bouton de reset
 "use client"
 import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -36,7 +36,8 @@ import {
   LogOut,
   Home,
   Wifi,
-  WifiOff
+  WifiOff,
+  Trash2
 } from "lucide-react"
 import { useRouter } from "next/navigation"
 
@@ -101,6 +102,7 @@ const AdminSecurityPage = () => {
     blockedSessions: 0,
     activeMonitoring: true
   })
+  const [isResetting, setIsResetting] = useState(false)
 
   // Charger les données depuis l'API avec gestion d'erreur améliorée
   const loadSecurityData = useCallback(async () => {
@@ -249,6 +251,59 @@ const AdminSecurityPage = () => {
       }
     } catch (error) {
       console.error("Erreur déblocage système:", error)
+    }
+  }
+
+  const handleForceReset = async () => {
+    if (!confirm("⚠️ ATTENTION: Ceci va SUPPRIMER TOUTES les données!\n\n" +
+                 "• Toutes les alertes seront supprimées\n" +
+                 "• Toutes les sessions seront réinitialisées\n" +
+                 "• L'historique des conversations sera effacé\n\n" +
+                 "Êtes-vous sûr de vouloir réinitialiser COMPLÈTEMENT le système?")) {
+      return
+    }
+    
+    if (!confirm("⚠️ DERNIÈRE CONFIRMATION\n\nCette action est IRRÉVERSIBLE. Continuer?")) {
+      return
+    }
+    
+    setIsResetting(true)
+    
+    try {
+      const response = await fetch("/api/admin/force-reset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "force_reset",
+          username: username || "admin",
+          password: password || "security123"
+        })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        alert("✅ Système réinitialisé avec succès!\n\n" +
+              `Statistiques avant reset:\n` +
+              `- Alertes: ${data.stats_before.alerts}\n` +
+              `- Sessions: ${data.stats_before.users}\n\n` +
+              "Toutes les données ont été supprimées.")
+        
+        // Recharger les données
+        await loadSecurityData()
+        
+        // Forcer le refresh de la page après 1 seconde
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
+      } else {
+        const error = await response.json()
+        alert(`❌ Erreur lors de la réinitialisation: ${error.detail || error.error || "Erreur inconnue"}`)
+      }
+    } catch (error) {
+      console.error("Erreur reset:", error)
+      alert("❌ Erreur de connexion lors du reset")
+    } finally {
+      setIsResetting(false)
     }
   }
 
@@ -411,6 +466,20 @@ const AdminSecurityPage = () => {
             >
               <Home className="w-4 h-4 mr-2" />
               Page Principale
+            </Button>
+            
+            <Button
+              onClick={handleForceReset}
+              disabled={isResetting}
+              variant="destructive"
+              className="bg-red-700 hover:bg-red-800"
+            >
+              {isResetting ? (
+                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Trash2 className="w-4 h-4 mr-2" />
+              )}
+              Reset Complet
             </Button>
             
             <Button

@@ -30,6 +30,51 @@ logger = logging.getLogger(__name__)
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
+# ============= DÉBUT PATCH RESET COMPLET =============
+# Vérifier si on doit réinitialiser
+RESET_ON_STARTUP = os.getenv("RESET_SYSTEM", "false").lower() == "true"
+
+if RESET_ON_STARTUP:
+    print("🔄 RÉINITIALISATION COMPLÈTE DU SYSTÈME AU DÉMARRAGE...")
+    
+    # Supprimer les imports en cache pour forcer le rechargement
+    modules_to_reset = [
+        'api.shared_state',
+        'api.cybersecurity_routes',
+        'api.agentic_routes'
+    ]
+    
+    for module in modules_to_reset:
+        if module in sys.modules:
+            del sys.modules[module]
+    
+    print("✅ Modules réinitialisés")
+
+# Maintenant importer shared_state APRÈS le reset
+from api.shared_state import system_state, security_alerts, user_activities, active_sessions
+
+# Forcer la réinitialisation complète si demandé
+if RESET_ON_STARTUP:
+    system_state.clear()
+    system_state.update({
+        "blocked": False,
+        "threat_level": "safe",
+        "block_reason": None,
+        "last_block_time": None,
+        "active_sessions": {},
+        "total_threats_detected": 0,
+        "last_scan": datetime.now().isoformat(),
+        "active_threats": []
+    })
+    
+    # Vider toutes les collections
+    security_alerts.clear()
+    user_activities.clear()
+    active_sessions.clear()
+    
+    print(f"✅ État système réinitialisé - Alertes: {len(security_alerts)}, Sessions: {len(user_activities)}")
+# ============= FIN PATCH RESET COMPLET =============
+
 # Créer l'application FastAPI
 app = FastAPI(
     title="NextGen-Agent API",
@@ -72,24 +117,6 @@ class AdminRequest(BaseModel):
     password: Optional[str] = None
     reason: Optional[str] = None
     severity: Optional[str] = None
-
-# =============================================================================
-# ÉTAT GLOBAL DU SYSTÈME
-# =============================================================================
-
-system_state = {
-    "blocked": False,
-    "threat_level": "safe",  # safe, warning, danger
-    "block_reason": None,
-    "last_block_time": None,
-    "active_sessions": {},
-    "total_threats_detected": 0,
-    "last_scan": datetime.now().isoformat()
-}
-
-# Liste des alertes en mémoire (en production, utiliser une base de données)
-security_alerts = []
-user_activities = {}
 
 # =============================================================================
 # ROUTES PRINCIPALES
@@ -285,7 +312,7 @@ async def block_system(request: SystemBlockRequest):
         
         # Limiter à 50 alertes en mémoire
         if len(security_alerts) > 50:
-            security_alerts = security_alerts[:50]
+            security_alerts[:] = security_alerts[:50]
         
         return {
             "status": "blocked",
@@ -423,6 +450,79 @@ async def admin_security_panel(request: AdminRequest):
         logger.error(f"Erreur admin panel: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/api/admin/force-reset")
+async def force_system_reset(request: AdminRequest):
+    """Force la réinitialisation complète du système"""
+    try:
+        # Vérifier les credentials admin
+        if request.action != "force_reset":
+            raise HTTPException(status_code=400, detail="Action invalide")
+        
+        if not request.username or not request.password:
+            raise HTTPException(status_code=401, detail="Credentials requis")
+        
+        if not verify_admin_credentials(request.username, request.password):
+            raise HTTPException(status_code=401, detail="Credentials invalides")
+        
+        logger.warning(f"🔄 RESET COMPLET DEMANDÉ PAR {request.username}")
+        
+        # Sauvegarder les stats avant reset
+        stats_before = {
+            "alerts": len(security_alerts),
+            "users": len(user_activities),
+            "sessions": len(active_sessions)
+        }
+        
+        # Reset complet
+        system_state.clear()
+        system_state.update({
+            "blocked": False,
+            "threat_level": "safe",
+            "block_reason": None,
+            "last_block_time": None,
+            "active_sessions": {},
+            "total_threats_detected": 0,
+            "last_scan": datetime.now().isoformat(),
+            "active_threats": []
+        })
+        
+        # Vider toutes les listes
+        security_alerts.clear()
+        user_activities.clear()
+        active_sessions.clear()
+        
+        # Nettoyer aussi les sessions de l'agent support si possible
+        try:
+            # Import de l'agent support
+            from api.agentic_routes import agent
+            if agent and hasattr(agent, 'memory_store'):
+                agent.memory_store.clear()
+                if hasattr(agent, '_save_memory'):
+                    agent._save_memory()
+                logger.info("✅ Mémoire agent support vidée")
+        except:
+            pass
+        
+        logger.info(f"✅ RESET COMPLET - Avant: {stats_before}, Après: Tout à 0")
+        
+        return {
+            "status": "success",
+            "message": "Système complètement réinitialisé",
+            "stats_before": stats_before,
+            "stats_after": {
+                "alerts": 0,
+                "users": 0,
+                "sessions": 0
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Erreur reset: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/admin-security")
 async def get_admin_data():
     """Récupère les données d'administration"""
@@ -482,7 +582,8 @@ async def not_found_handler(request, exc):
                 "/health", "/status", "/docs",
                 "/api/agentic/chat", "/api/agentic/health",
                 "/api/cybersecurity/analyze", "/api/cybersecurity/alerts",
-                "/api/inter-agent/communicate", "/api/admin-security"
+                "/api/inter-agent/communicate", "/api/admin-security",
+                "/api/admin/force-reset"
             ],
             "timestamp": datetime.now().isoformat()
         }
@@ -568,6 +669,7 @@ if __name__ == "__main__":
     logger.info("   • Cybersécurité: http://localhost:8000/api/cybersecurity/analyze")
     logger.info("   • Communication Inter-Agents: http://localhost:8000/api/inter-agent/communicate")
     logger.info("   • Admin Panel: http://localhost:8000/api/admin-security")
+    logger.info("   • Force Reset: http://localhost:8000/api/admin/force-reset")
     
     # Démarrer le serveur
     uvicorn.run(

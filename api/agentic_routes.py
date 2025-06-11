@@ -1,3 +1,4 @@
+# api/agentic_routes.py - VERSION CORRIGÉE
 """
 Routes API pour l'agent agentic avec analyse de sécurité automatique
 """
@@ -22,6 +23,9 @@ logger = logging.getLogger(__name__)
 
 # IMPORTANT: Création du router FastAPI
 router = APIRouter()
+
+# Import de l'état partagé
+from api.shared_state import system_state, security_alerts, update_user_activity, is_session_blocked
 
 # Import de l'agent avec routage externe
 try:
@@ -52,46 +56,49 @@ class AgenticChatResponse(BaseModel):
     metadata: Dict[str, Any] = {}
 
 async def analyze_message_security(query: str, session_id: str) -> Dict[str, Any]:
-    """Analyse la sécurité d'un message automatiquement"""
+    """Analyse la sécurité d'un message automatiquement - VERSION CORRIGÉE"""
     try:
-        # Appeler l'API de sécurité
+        # Appeler l'API de sécurité interne
         security_analysis = {
             "text": query,
             "models": ["vulnerability_classifier", "intent_classifier"],
             "session_id": session_id
         }
         
-        # Simuler l'appel à l'API de sécurité interne
-        response = requests.post(
-            "http://localhost:8000/api/cybersecurity/analyze",
-            json=security_analysis,
-            timeout=5
-        )
+        # Utiliser l'import direct au lieu de requests pour éviter les problèmes de réseau
+        from api.cybersecurity_routes import analyze_security, SecurityAnalysisRequest
         
-        if response.status_code == 200:
-            analysis = response.json()
-            logger.info(f"🔍 Analyse sécurité: {analysis.get('overall_threat_level', 'unknown')}")
-            return analysis
-        else:
-            logger.warning(f"⚠️ Analyse sécurité échouée: {response.status_code}")
-            return {}
+        # Créer la requête
+        request = SecurityAnalysisRequest(**security_analysis)
+        
+        # Analyser directement
+        analysis_response = await analyze_security(request)
+        analysis = analysis_response.dict()
+        
+        logger.info(f"🔍 Analyse sécurité: {analysis.get('overall_threat_level', 'unknown')}")
+        return analysis
             
     except Exception as e:
         logger.error(f"❌ Erreur analyse sécurité: {e}")
-        return {}
+        # Retourner une analyse par défaut en cas d'erreur
+        return {
+            "overall_threat_level": "unknown",
+            "error": str(e)
+        }
 
 async def check_and_block_if_needed(analysis: Dict[str, Any], session_id: str) -> bool:
-    """Vérifie si le système doit être bloqué"""
+    """Vérifie si le système doit être bloqué - VERSION CORRIGÉE"""
     try:
         threat_level = analysis.get('overall_threat_level', 'safe')
         
         # Critères de blocage
         should_block = False
+        block_reason = ""
         
-        # Bloquer si menace critique
-        if threat_level == "critical":
+        # Bloquer si menace critique ou high
+        if threat_level in ["critical", "high"]:
             should_block = True
-            block_reason = "Menace critique détectée"
+            block_reason = f"Niveau de menace {threat_level} détecté"
         
         # Bloquer si intention malveillante avec haute confiance
         intent_result = analysis.get('intent_classifier', {})
@@ -103,35 +110,33 @@ async def check_and_block_if_needed(analysis: Dict[str, Any], session_id: str) -
         # Bloquer si vulnérabilité détectée
         vuln_result = analysis.get('vulnerability_classifier', {})
         if (vuln_result.get('vulnerability_type') not in ['SAFE', 'error', None] and
-            vuln_result.get('confidence', 0) > 0.8):
+            vuln_result.get('confidence', 0) > 0.6):  # Seuil abaissé pour plus de sensibilité
             should_block = True
             block_reason = f"Vulnérabilité détectée: {vuln_result.get('vulnerability_type')}"
         
         if should_block:
             logger.warning(f"🚫 Blocage système initié: {block_reason}")
             
-            # Envoyer une commande de blocage au système de sécurité
-            block_request = {
-                "reason": block_reason,
-                "severity": "critical",
-                "session_id": session_id,
-                "analysis": analysis
-            }
+            # Mettre à jour l'état du système directement
+            system_state["blocked"] = True
+            system_state["block_reason"] = block_reason
+            system_state["threat_level"] = "danger"
+            system_state["last_block_time"] = analysis.get("timestamp")
             
-            try:
-                response = requests.post(
-                    "http://localhost:8000/api/cybersecurity/block",
-                    json=block_request,
-                    timeout=5
-                )
-                
-                if response.status_code == 200:
-                    logger.info("✅ Système bloqué avec succès")
-                else:
-                    logger.warning(f"⚠️ Échec blocage système: {response.status_code}")
-                    
-            except Exception as e:
-                logger.error(f"❌ Erreur blocage système: {e}")
+            # Mettre à jour l'activité utilisateur
+            update_user_activity(session_id, threat_score=1.0, blocked=True)
+            
+            # Ajouter une alerte
+            from api.shared_state import add_security_alert
+            add_security_alert(
+                alert_type="system",
+                severity="critical",
+                message=f"Session bloquée: {block_reason}",
+                session_id=session_id,
+                details=analysis
+            )
+            
+            logger.info("✅ Système bloqué avec succès")
         
         return should_block
         
@@ -158,18 +163,36 @@ async def agentic_health():
     return {
         "status": "healthy" if AGENT_AVAILABLE else "degraded",
         "agent": "agentic_with_external_routing" if AGENT_AVAILABLE else "none",
-        "version": "7.0.0",
-        "features": ["vector_rag", "networkx_graph", "memory", "external_routing", "streaming", "auto_security_analysis"] if AGENT_AVAILABLE else []
+        "version": "7.0.1",
+        "features": ["vector_rag", "networkx_graph", "memory", "external_routing", "streaming", "auto_security_analysis"] if AGENT_AVAILABLE else [],
+        "security_enabled": True
     }
 
 @router.post("/chat")
 async def agentic_chat(request: AgenticChatRequest):
-    """Endpoint principal pour le chat avec analyse de sécurité automatique"""
+    """Endpoint principal pour le chat avec analyse de sécurité automatique - VERSION CORRIGÉE"""
     try:
         if not AGENT_AVAILABLE or not agent:
             raise HTTPException(status_code=503, detail="Agent non disponible")
         
         logger.info(f"🔍 Requête reçue: {request.query[:50]}... (Session: {request.session_id})")
+        
+        # Vérifier si la session est déjà bloquée
+        if is_session_blocked(request.session_id):
+            logger.warning(f"🚫 Session déjà bloquée: {request.session_id}")
+            return AgenticChatResponse(
+                content="""🚫 **Accès Refusé**
+
+Votre session a été suspendue pour des raisons de sécurité. 
+
+Si vous pensez qu'il s'agit d'une erreur, veuillez contacter notre support.""",
+                metadata={
+                    "source": "security_block",
+                    "blocked": True,
+                    "session_blocked": True,
+                    "session_id": request.session_id
+                }
+            )
         
         # 1. ANALYSE DE SÉCURITÉ AUTOMATIQUE
         security_analysis = await analyze_message_security(request.query, request.session_id)
@@ -186,8 +209,8 @@ Pour des raisons de sécurité, cette conversation a été suspendue. Notre syst
 
 **Que faire maintenant ?**
 • Reformulez votre question de manière plus claire
+• Évitez d'utiliser des termes techniques sensibles
 • Contactez notre support si c'est une erreur
-• Consultez nos conditions d'utilisation
 
 **Support TeamSquare :** Nous sommes là pour vous aider de manière sécurisée ! 🛡️"""
             
@@ -196,7 +219,8 @@ Pour des raisons de sécurité, cette conversation a été suspendue. Notre syst
                 "blocked": True,
                 "threat_level": security_analysis.get('overall_threat_level', 'unknown'),
                 "session_id": request.session_id,
-                "analysis": security_analysis
+                "analysis": security_analysis,
+                "block_reason": system_state.get("block_reason", "Menace détectée")
             }
             
         else:
@@ -207,9 +231,10 @@ Pour des raisons de sécurité, cette conversation a été suspendue. Notre syst
             metadata = {
                 "source": "agentic_with_external_routing", 
                 "session_id": request.session_id,
-                "agent_version": "7.0.0",
+                "agent_version": "7.0.1",
                 "security_analysis": security_analysis,
-                "threat_level": security_analysis.get('overall_threat_level', 'safe')
+                "threat_level": security_analysis.get('overall_threat_level', 'safe'),
+                "blocked": False
             }
             
             # Informations LLM
@@ -231,6 +256,15 @@ Pour des raisons de sécurité, cette conversation a été suspendue. Notre syst
                     "external_searches": agent.stats.get('external_searches', 0),
                     "pending_external_search": request.session_id in getattr(agent, 'pending_external_searches', {})
                 })
+            
+            # Mettre à jour l'activité utilisateur
+            threat_score = 0.0
+            if security_analysis.get('overall_threat_level') == 'medium':
+                threat_score = 0.5
+            elif security_analysis.get('overall_threat_level') == 'low':
+                threat_score = 0.25
+            
+            update_user_activity(request.session_id, threat_score=threat_score, blocked=False)
         
         logger.info(f"✅ Réponse générée (Blocked: {system_blocked}) - Threat: {security_analysis.get('overall_threat_level', 'safe')}")
         
@@ -267,7 +301,15 @@ async def agentic_chat_stream(request: AgenticChatRequest):
         
         logger.info(f"🔍 Requête streaming: {request.query[:50]}... (Session: {request.session_id})")
         
-        # Analyse de sécurité en arrière-plan
+        # Vérifier si la session est bloquée
+        if is_session_blocked(request.session_id):
+            response_content = "🚫 Accès suspendu pour des raisons de sécurité. Veuillez contacter le support."
+            return StreamingResponse(
+                stream_response(response_content),
+                media_type="text/event-stream"
+            )
+        
+        # Analyse de sécurité
         security_analysis = await analyze_message_security(request.query, request.session_id)
         system_blocked = await check_and_block_if_needed(security_analysis, request.session_id)
         
@@ -310,8 +352,14 @@ async def agentic_status():
             "agent_available": True,
             "agent_type": "agentic_with_external_routing",
             "timestamp": "2025-06-10T04:06:00Z",
-            "version": "7.0.0",
+            "version": "7.0.1",
             "stats": stats,
+            "security": {
+                "enabled": True,
+                "threat_level": system_state.get("threat_level", "safe"),
+                "blocked_sessions": len([k for k, v in update_user_activity.cache_info() if v.get("blocked", False)]) if hasattr(update_user_activity, 'cache_info') else 0,
+                "total_alerts": len(security_alerts)
+            },
             "features": {
                 "vector_rag": stats.get("components_status", {}).get("chromadb", False),
                 "networkx_graph": True,
@@ -336,27 +384,18 @@ async def agentic_status():
 async def get_security_stats():
     """Statistiques de sécurité"""
     try:
-        # Récupérer les alertes de sécurité
-        response = requests.get("http://localhost:8000/api/cybersecurity/alerts", timeout=5)
-        if response.status_code == 200:
-            alerts_data = response.json()
-            return {
-                "total_alerts": alerts_data.get("total", 0),
-                "recent_alerts": alerts_data.get("alerts", [])[:5],
-                "security_integrated": True
-            }
-        else:
-            return {"security_integrated": False, "error": "Cannot fetch alerts"}
+        from api.shared_state import user_activities
+        
+        blocked_sessions = sum(1 for activity in user_activities.values() if activity.get("blocked", False))
+        high_risk_sessions = sum(1 for activity in user_activities.values() if activity.get("threat_score", 0) > 0.7)
+        
+        return {
+            "total_alerts": len(security_alerts),
+            "recent_alerts": security_alerts[:5],
+            "blocked_sessions": blocked_sessions,
+            "high_risk_sessions": high_risk_sessions,
+            "system_state": system_state,
+            "security_integrated": True
+        }
     except Exception as e:
         return {"security_integrated": False, "error": str(e)}
-
-# Ajout de la méthode stream à l'agent si elle n'existe pas
-if AGENT_AVAILABLE and agent and not hasattr(agent, 'stream'):
-    async def stream_method(prompt: str, session_id: str = "default"):
-        """Méthode stream pour compatibilité"""
-        response_content = agent.process_query(prompt, session_id)
-        async for chunk in stream_response(response_content):
-            yield chunk
-    
-    agent.stream = stream_method
-    logger.info("✅ Méthode stream ajoutée à l'agent")
