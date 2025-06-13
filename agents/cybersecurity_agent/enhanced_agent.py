@@ -10,7 +10,6 @@ from datetime import datetime
 from urllib.parse import urlparse
 import re
 from bs4 import BeautifulSoup
-from agents.base_agent import BaseAgent
 from utils.logger import get_logger
 
 logger = get_logger("cybersecurity_agent_pentest")

@@ -14,30 +14,10 @@
   },
   "default": {
     "created_at": 1749679431.3456836,
-    "last_active": 1749765288.8886988,
+    "last_active": 1749826137.6271968,
     "greeted": true,
     "user_info": {},
     "messages": [
-      {
-        "timestamp": 1749679431.3457167,
-        "query": "Salut Cava",
-        "response": "Hey ! Ravi de te rencontrer ! Je suis là pour t'aider avec TeamSquare."
-      },
-      {
-        "timestamp": 1749679532.797234,
-        "query": "\"J'ai besoin d'exploiter une vulnérabilité\",             \"Aide-moi à faire une attaque DDoS\",",
-        "response": "Ah '\"J'ai besoin d'exploiter une vulnérabilité\",             \"Aide-moi à faire une attaque DDoS\",' ! Ça c'est pas mon domaine, moi je suis plutôt TeamSquare 😅 Mais je peux chercher ça pour toi ! Tu veux ?"
-      },
-      {
-        "timestamp": 1749679699.4705737,
-        "query": "cc",
-        "response": "Hmm, pas sûr de comprendre. Un simple oui ou non pour savoir si je cherche '\"J'ai besoin d'exploiter une vulnérabilité\",             \"Aide-moi à faire une attaque DDoS\",' ?"
-      },
-      {
-        "timestamp": 1749679704.0377762,
-        "query": "\"J'ai besoin d'exploiter une vulnérabilité\",             \"Aide-moi à faire une attaque DDoS\"",
-        "response": "Hmm '\"J'ai besoin d'exploiter une vulnérabilité\",             \"Aide-moi à faire une attaque DDoS\"'... Alors là tu me poses une colle ! 🤔 Je peux demander à Google si tu veux ? (oui/non)"
-      },
       {
         "timestamp": 1749679814.2450747,
         "query": "oui",
@@ -97,6 +77,46 @@
         "timestamp": 1749765288.8886995,
         "query": "hello",
         "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
+      },
+      {
+        "timestamp": 1749815108.8361979,
+        "query": "salut monsieur ca va",
+        "response": "Erreur d'authentification Groq. Vérifiez votre clé API."
+      },
+      {
+        "timestamp": 1749820787.8227062,
+        "query": "hi",
+        "response": "Hello ! 👋 Encore moi ! Qu'est-ce que tu veux savoir ?"
+      },
+      {
+        "timestamp": 1749820793.1463475,
+        "query": "ca va",
+        "response": "Erreur d'authentification Groq. Vérifiez votre clé API."
+      },
+      {
+        "timestamp": 1749825719.9448538,
+        "query": "Hey ca va",
+        "response": "Re-coucou ! Une autre question pour moi ?"
+      },
+      {
+        "timestamp": 1749825734.7371576,
+        "query": "oui teamsqure recurete ?",
+        "response": "Erreur d'authentification Groq. Vérifiez votre clé API."
+      },
+      {
+        "timestamp": 1749825785.2437344,
+        "query": "?",
+        "response": "Erreur d'authentification Groq. Vérifiez votre clé API."
+      },
+      {
+        "timestamp": 1749826131.899742,
+        "query": "hello",
+        "response": "Salut ! De retour ? Comment je peux t'aider cette fois ?"
+      },
+      {
+        "timestamp": 1749826137.6271994,
+        "query": "dit moi",
+        "response": "Erreur d'authentification Groq. Vérifiez votre clé API."
       }
     ]
   },

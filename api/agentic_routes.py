@@ -35,16 +35,6 @@ try:
     logger.info("✅ Agent avec routage externe chargé avec succès")
 except ImportError as e:
     logger.error(f"❌ Erreur import agent avec routage: {e}")
-    # Fallback vers l'agent NetworkX si le routage échoue
-    try:
-        from agents.support_agent.agentic_support_agent_networkx import AgenticSupportAgentNetworkX
-        agent = AgenticSupportAgentNetworkX()
-        AGENT_AVAILABLE = True
-        logger.warning("⚠️ Fallback vers agent NetworkX")
-    except ImportError:
-        agent = None
-        AGENT_AVAILABLE = False
-        logger.error("❌ Aucun agent disponible")
 
 # Modèles Pydantic
 class AgenticChatRequest(BaseModel):

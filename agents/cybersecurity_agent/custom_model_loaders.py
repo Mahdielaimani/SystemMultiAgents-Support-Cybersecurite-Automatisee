@@ -146,7 +146,7 @@ class NetworkAnalyzerXGBoost:
                     self.feature_selector = pickle.load(f)
                 logger.info("✅ Préprocesseurs chargés")
             except Exception as e:
-                logger.warning(f"⚠️ Erreur chargement des préprocesseurs: {e}")
+             #   logger.warning(f"⚠️ Erreur chargement des préprocesseurs: {e}")
                 # Créer des préprocesseurs factices
                 self.label_encoder = type('obj', (object,), {
                     'classes_': np.array(["NORMAL", "DDOS", "PORT_SCAN", "BRUTE_FORCE"])
