@@ -1,0 +1,35 @@
+============================================================
+📊 RAPPORT DE VALIDATION - MODÈLE RÉSEAU CICIDS2017
+============================================================
+📅 Date: 2025-06-13T16:14:05.198763
+✅ Taux de succès global: 75.0%
+
+🧪 Basic Model Functionality: ✅ PASSÉ
+   📋 consistency: True
+   📋 obvious_tests: {'normal_traffic': {'label': 'NORMAL', 'score': 0.91}, 'ddos_traffic': {'label': 'DDOS', 'score': 0.88}, 'port_scan': {'label': 'PORT_SCAN', 'score': 0.85}}
+
+🧪 Normal Traffic Detection: ❌ ÉCHOUÉ
+   ❌ Aucun trafic capturé
+
+🧪 Attack Detection: ✅ PASSÉ
+   📋 attack_samples_tested: 5
+   📋 attacks_detected: 5
+   📈 detection_rate: 1.000
+   📋 detections: {'ddos attack high volume traffic flood': {'detected_as': 'DDOS', 'confidence': 0.88, 'is_attack': True}, 'port scan reconnaissance nmap scanning': {'detected_as': 'PORT_SCAN', 'confidence': 0.85, 'is_attack': True}, 'brute force ssh login attempts': {'detected_as': 'BRUTE_FORCE', 'confidence': 0.82, 'is_attack': True}, 'syn flood dos attack': {'detected_as': 'DDOS', 'confidence': 0.88, 'is_attack': True}, 'botnet malicious traffic': {'detected_as': 'DDOS', 'confidence': 0.75, 'is_attack': True}}
+
+🧪 Real-time Performance: ✅ PASSÉ
+   📈 capture_time: 0.001
+   📈 analysis_time: 0.000
+   📋 total_flows_processed: 0
+   📋 avg_time_per_flow: 0
+   📈 flows_per_second: 0.000
+
+💡 RECOMMANDATIONS:
+   ⚠️ Trop de faux positifs - ajustez les seuils du modèle
+   🎯 Réentraînez avec plus de données de trafic normal
+
+📊 STATISTIQUES GLOBALES:
+   🔍 Flows testés: 0
+   ✅ Détections normales: 0
+   🚨 Détections d'attaques: 5
+============================================================

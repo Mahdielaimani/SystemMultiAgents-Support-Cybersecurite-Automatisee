@@ -446,7 +446,7 @@ const AdminSecurityPage = () => {
             <Shield className="w-8 h-8" />
             <div>
               <h1 className="text-3xl font-bold">Centre de Sécurité Admin</h1>
-              <p className="text-red-200">Surveillance temps réel des systèmes IA de sécurité</p>
+              <p className="text-red-200">Surveillance en temps réel des systèmes de sécurité assurée par des agents IA</p>
             </div>
           </div>
           
