@@ -446,7 +446,7 @@ const AdminSecurityPage = () => {
             <Shield className="w-8 h-8" />
             <div>
               <h1 className="text-3xl font-bold">Centre de Sécurité Admin</h1>
-              <p className="text-red-200">Surveillance temps réel des systèmes IA de sécurité</p>
+              <p className="text-red-200">Surveillance en temps réel des systèmes de sécurité assurée par des agents IA</p>
             </div>
           </div>
           
@@ -458,11 +458,11 @@ const AdminSecurityPage = () => {
               {connectionStatus ? <Wifi className="w-4 h-4" /> : <WifiOff className="w-4 h-4" />}
               <span className="text-sm">{connectionStatus ? "Connecté" : "Hors ligne"}</span>
             </div>
-            
+            {/* 
             <Button
               onClick={() => router.push("/")}
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-red-600"
+              className="border-white text-black bg-gray-300 hover:bg-gray-400 hover:text-red-600"
             >
               <Home className="w-4 h-4 mr-2" />
               Page Principale
@@ -479,9 +479,9 @@ const AdminSecurityPage = () => {
               ) : (
                 <Trash2 className="w-4 h-4 mr-2" />
               )}
-              Reset Complet
+             Reset Complet
             </Button>
-            
+            */}
             <Button
               onClick={generateSecurityReport}
               disabled={isGeneratingReport}
@@ -495,14 +495,15 @@ const AdminSecurityPage = () => {
               Télécharger Rapport
             </Button>
             
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-red-600"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Déconnexion
-            </Button>
+           <Button
+  onClick={handleLogout}
+  variant="outline"
+  className="border-white text-black bg-gray-300 hover:bg-gray-400 hover:text-red-600"
+>
+  <LogOut className="w-4 h-4 mr-2" />
+  Déconnexion
+</Button>
+
           </div>
         </div>
       </div>

@@ -195,7 +195,7 @@ export default function Home() {
                 <Card
                   className={`${
                     isUser
-                      ? "bg-blue-500 text-white border-0"
+                      ? "bg-white text-black border border-gray-200 shadow-md"
                       : isDark
                       ? "bg-gray-800 border-gray-700 text-white"
                       : "bg-white border border-gray-200"
@@ -207,7 +207,7 @@ export default function Home() {
                         <span className={`text-sm font-medium ${
                           isDark ? "text-gray-300" : "text-gray-700"
                         }`}>
-                          Assistant TeamSquare
+                          AI Agent TeamSquare
                         </span>
                         <div className={`w-2 h-2 rounded-full ${
                           message.metadata?.error ? "bg-red-400" :
@@ -217,23 +217,13 @@ export default function Home() {
                     )}
 
                     <div className={`text-sm whitespace-pre-wrap ${
-                      isUser ? "text-white" : isDark ? "text-gray-100" : "text-gray-900"
+                      isUser ? "text-black" : isDark ? "text-gray-100" : "text-gray-900"
                     }`}>
                       {message.content}
                     </div>
 
                     {message.metadata && !isUser && (
                       <div className="mt-2 flex flex-wrap gap-2">
-                        <Badge 
-                          variant="secondary" 
-                          className={`text-xs ${
-                            message.metadata.error ? "bg-red-100 text-red-800" :
-                            message.metadata.fallback_used ? "bg-yellow-100 text-yellow-800" :
-                            "bg-green-100 text-green-800"
-                          }`}
-                        >
-                          {message.metadata.source || "assistant"}
-                        </Badge>
                         {message.metadata.confidence && (
                           <Badge variant="outline" className="text-xs">
                             Confiance: {(message.metadata.confidence * 100).toFixed(0)}%
@@ -329,7 +319,7 @@ export default function Home() {
           </Button>
         </div>
 
-        <h1 className="text-4xl font-bold mb-2">TeamSquare Assistant IA</h1>
+        <h1 className="text-4xl font-bold mb-2">TeamSquare AI Agents</h1>
         <p className="text-xl opacity-90">Support intelligent pour votre équipe</p>
 
         {/* Indicateur de statut de connexion */}
@@ -363,7 +353,7 @@ export default function Home() {
           } border-r p-6 overflow-y-auto`}
         >
           <h2 className={`text-2xl font-bold mb-6 ${isDark ? "text-white" : "text-gray-900"}`}>
-            Assistant IA
+            AI Agents
           </h2>
 
           <Card
@@ -379,7 +369,7 @@ export default function Home() {
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
                     <h3 className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>
-                      Agent Support TeamSquare
+                      Agents Support TeamSquare
                     </h3>
                     <div className="flex items-center gap-1">
                       <div className={`w-2 h-2 rounded-full ${
@@ -485,10 +475,10 @@ export default function Home() {
                 <div className="text-center max-w-md">
                   <MessageSquare className={`w-16 h-16 mx-auto mb-4 ${isDark ? "text-gray-600" : "text-gray-400"}`} />
                   <h3 className={`text-xl font-semibold mb-2 ${isDark ? "text-white" : "text-gray-900"}`}>
-                    Bienvenue sur TeamSquare Assistant
+                    Bienvenue sur TeamSquare AI Agents
                   </h3>
                   <p className={`${isDark ? "text-gray-400" : "text-gray-600"} mb-4`}>
-                    Notre assistant IA est là pour vous aider avec toutes vos questions sur TeamSquare.
+                    Notre AI Agents est là pour vous aider avec toutes vos questions sur TeamSquare.
                     {!connectionStatus.backend && " Actuellement en mode hors ligne avec fonctionnalités limitées."}
                   </p>
                   <div className="grid grid-cols-1 gap-2 text-sm">

@@ -1,4 +1,4 @@
-# api/agentic_routes.py - VERSION CORRIGÉE
+# api/agentic_routes.py - VERSION CORRIGÉE AVEC DÉTECTION AMÉLIORÉE
 """
 Routes API pour l'agent agentic avec analyse de sécurité automatique
 """
@@ -55,8 +55,55 @@ class AgenticChatResponse(BaseModel):
     content: str
     metadata: Dict[str, Any] = {}
 
+# Listes de mots-clés dangereux pour détection fallback
+DANGEROUS_KEYWORDS = {
+    'sql_injection': ['sql injection', 'drop table', 'or 1=1', 'union select', 'delete from', '; drop', '--', '/*', '*/', 'exec(', 'execute('],
+    'xss': ['<script', 'javascript:', 'onerror=', 'onload=', 'alert(', 'document.cookie', '<iframe', 'eval('],
+    'command_injection': ['rm -rf', 'sudo', 'chmod 777', '/etc/passwd', 'nc -e', 'bash -i', '&&', '||', '|', ';'],
+    'path_traversal': ['../..', '..\\', '%2e%2e', 'etc/passwd', 'windows/system32'],
+    'ddos': ['ddos', 'dos attack', 'flood', 'botnet', 'amplification'],
+    'exploit': ['exploit', 'vulnérabilité', 'vulnerability', 'buffer overflow', 'heap spray'],
+    'malicious_intent': ['hack', 'pirater', 'craquer', 'breach', 'backdoor', 'trojan', 'malware', 'virus']
+}
+
+def detect_threats_by_keywords(query: str) -> Dict[str, Any]:
+    """Détection de menaces par mots-clés comme fallback"""
+    query_lower = query.lower()
+    threats_found = []
+    threat_types = []
+    
+    for threat_type, keywords in DANGEROUS_KEYWORDS.items():
+        for keyword in keywords:
+            if keyword in query_lower:
+                threats_found.append(keyword)
+                if threat_type not in threat_types:
+                    threat_types.append(threat_type)
+    
+    if threats_found:
+        # Déterminer le niveau de menace
+        if len(threats_found) >= 3 or 'sql injection' in query_lower or 'drop table' in query_lower:
+            threat_level = "critical"
+        elif len(threats_found) >= 2:
+            threat_level = "high"
+        else:
+            threat_level = "medium"
+        
+        return {
+            "threat_detected": True,
+            "threat_level": threat_level,
+            "threats_found": threats_found,
+            "threat_types": threat_types,
+            "detection_method": "keyword_matching"
+        }
+    
+    return {
+        "threat_detected": False,
+        "threat_level": "safe",
+        "detection_method": "keyword_matching"
+    }
+
 async def analyze_message_security(query: str, session_id: str) -> Dict[str, Any]:
-    """Analyse la sécurité d'un message automatiquement - VERSION CORRIGÉE"""
+    """Analyse la sécurité d'un message automatiquement - VERSION AMÉLIORÉE"""
     try:
         # Appeler l'API de sécurité interne
         security_analysis = {
@@ -75,19 +122,52 @@ async def analyze_message_security(query: str, session_id: str) -> Dict[str, Any
         analysis_response = await analyze_security(request)
         analysis = analysis_response.dict()
         
-        logger.info(f"🔍 Analyse sécurité: {analysis.get('overall_threat_level', 'unknown')}")
+        # Si l'analyse retourne "safe" mais qu'on détecte des mots-clés dangereux
+        if analysis.get('overall_threat_level', 'safe') == 'safe':
+            keyword_detection = detect_threats_by_keywords(query)
+            
+            if keyword_detection['threat_detected']:
+                logger.warning(f"⚠️ Menace détectée par mots-clés: {keyword_detection['threats_found']}")
+                
+                # Mettre à jour l'analyse avec la détection par mots-clés
+                analysis['overall_threat_level'] = keyword_detection['threat_level']
+                analysis['keyword_detection'] = keyword_detection
+                analysis['vulnerability_classifier'] = {
+                    'vulnerability_type': keyword_detection['threat_types'][0].upper() if keyword_detection['threat_types'] else 'UNKNOWN',
+                    'confidence': 0.9,
+                    'detection_method': 'keyword_matching'
+                }
+                analysis['intent_classifier'] = {
+                    'intent': 'Malicious',
+                    'confidence': 0.85,
+                    'detection_method': 'keyword_matching'
+                }
+        
+        logger.info(f"🔍 Analyse sécurité finale: {analysis.get('overall_threat_level', 'unknown')}")
         return analysis
             
     except Exception as e:
         logger.error(f"❌ Erreur analyse sécurité: {e}")
-        # Retourner une analyse par défaut en cas d'erreur
+        
+        # En cas d'erreur, utiliser la détection par mots-clés
+        keyword_detection = detect_threats_by_keywords(query)
+        
         return {
-            "overall_threat_level": "unknown",
-            "error": str(e)
+            "overall_threat_level": keyword_detection['threat_level'],
+            "error": str(e),
+            "fallback_detection": keyword_detection,
+            "vulnerability_classifier": {
+                'vulnerability_type': keyword_detection['threat_types'][0].upper() if keyword_detection.get('threat_types') else 'SAFE',
+                'confidence': 0.8
+            },
+            "intent_classifier": {
+                'intent': 'Malicious' if keyword_detection['threat_detected'] else 'Neutral',
+                'confidence': 0.8
+            }
         }
 
-async def check_and_block_if_needed(analysis: Dict[str, Any], session_id: str) -> bool:
-    """Vérifie si le système doit être bloqué - VERSION CORRIGÉE"""
+async def check_and_block_if_needed(analysis: Dict[str, Any], session_id: str, query: str) -> bool:
+    """Vérifie si le système doit être bloqué - VERSION AMÉLIORÉE"""
     try:
         threat_level = analysis.get('overall_threat_level', 'safe')
         
@@ -110,9 +190,15 @@ async def check_and_block_if_needed(analysis: Dict[str, Any], session_id: str) -
         # Bloquer si vulnérabilité détectée
         vuln_result = analysis.get('vulnerability_classifier', {})
         if (vuln_result.get('vulnerability_type') not in ['SAFE', 'error', None] and
-            vuln_result.get('confidence', 0) > 0.6):  # Seuil abaissé pour plus de sensibilité
+            vuln_result.get('confidence', 0) > 0.6):
             should_block = True
             block_reason = f"Vulnérabilité détectée: {vuln_result.get('vulnerability_type')}"
+        
+        # Bloquer si détection par mots-clés
+        if analysis.get('keyword_detection', {}).get('threat_detected'):
+            should_block = True
+            threats = analysis['keyword_detection']['threats_found']
+            block_reason = f"Contenu malveillant détecté: {', '.join(threats[:3])}"
         
         if should_block:
             logger.warning(f"🚫 Blocage système initié: {block_reason}")
@@ -121,22 +207,27 @@ async def check_and_block_if_needed(analysis: Dict[str, Any], session_id: str) -
             system_state["blocked"] = True
             system_state["block_reason"] = block_reason
             system_state["threat_level"] = "danger"
-            system_state["last_block_time"] = analysis.get("timestamp")
+            system_state["last_block_time"] = analysis.get("timestamp", datetime.now().isoformat())
             
             # Mettre à jour l'activité utilisateur
             update_user_activity(session_id, threat_score=1.0, blocked=True)
             
-            # Ajouter une alerte
+            # Ajouter une alerte avec plus de détails
             from api.shared_state import add_security_alert
             add_security_alert(
                 alert_type="system",
-                severity="critical",
-                message=f"Session bloquée: {block_reason}",
+                severity="critical" if threat_level == "critical" else "high",
+                message=f"Session bloquée: {block_reason} | Query: {query[:100]}...",
                 session_id=session_id,
-                details=analysis
+                details={
+                    "analysis": analysis,
+                    "query": query,
+                    "threat_level": threat_level,
+                    "block_reason": block_reason
+                }
             )
             
-            logger.info("✅ Système bloqué avec succès")
+            logger.info("✅ Système bloqué avec succès et alerte créée")
         
         return should_block
         
@@ -163,14 +254,14 @@ async def agentic_health():
     return {
         "status": "healthy" if AGENT_AVAILABLE else "degraded",
         "agent": "agentic_with_external_routing" if AGENT_AVAILABLE else "none",
-        "version": "7.0.1",
-        "features": ["vector_rag", "networkx_graph", "memory", "external_routing", "streaming", "auto_security_analysis"] if AGENT_AVAILABLE else [],
+        "version": "7.0.2",
+        "features": ["vector_rag", "networkx_graph", "memory", "external_routing", "streaming", "auto_security_analysis", "keyword_detection"] if AGENT_AVAILABLE else [],
         "security_enabled": True
     }
 
 @router.post("/chat")
 async def agentic_chat(request: AgenticChatRequest):
-    """Endpoint principal pour le chat avec analyse de sécurité automatique - VERSION CORRIGÉE"""
+    """Endpoint principal pour le chat avec analyse de sécurité automatique - VERSION AMÉLIORÉE"""
     try:
         if not AGENT_AVAILABLE or not agent:
             raise HTTPException(status_code=503, detail="Agent non disponible")
@@ -194,11 +285,11 @@ Si vous pensez qu'il s'agit d'une erreur, veuillez contacter notre support.""",
                 }
             )
         
-        # 1. ANALYSE DE SÉCURITÉ AUTOMATIQUE
+        # 1. ANALYSE DE SÉCURITÉ AUTOMATIQUE AMÉLIORÉE
         security_analysis = await analyze_message_security(request.query, request.session_id)
         
-        # 2. VÉRIFIER SI BLOCAGE NÉCESSAIRE
-        system_blocked = await check_and_block_if_needed(security_analysis, request.session_id)
+        # 2. VÉRIFIER SI BLOCAGE NÉCESSAIRE (avec la query pour plus de contexte)
+        system_blocked = await check_and_block_if_needed(security_analysis, request.session_id, request.query)
         
         # 3. GÉNÉRER RÉPONSE ADAPTÉE
         if system_blocked:
@@ -231,7 +322,7 @@ Pour des raisons de sécurité, cette conversation a été suspendue. Notre syst
             metadata = {
                 "source": "agentic_with_external_routing", 
                 "session_id": request.session_id,
-                "agent_version": "7.0.1",
+                "agent_version": "7.0.2",
                 "security_analysis": security_analysis,
                 "threat_level": security_analysis.get('overall_threat_level', 'safe'),
                 "blocked": False
@@ -257,9 +348,13 @@ Pour des raisons de sécurité, cette conversation a été suspendue. Notre syst
                     "pending_external_search": request.session_id in getattr(agent, 'pending_external_searches', {})
                 })
             
-            # Mettre à jour l'activité utilisateur
+            # Mettre à jour l'activité utilisateur avec un score approprié
             threat_score = 0.0
-            if security_analysis.get('overall_threat_level') == 'medium':
+            if security_analysis.get('overall_threat_level') == 'critical':
+                threat_score = 1.0
+            elif security_analysis.get('overall_threat_level') == 'high':
+                threat_score = 0.8
+            elif security_analysis.get('overall_threat_level') == 'medium':
                 threat_score = 0.5
             elif security_analysis.get('overall_threat_level') == 'low':
                 threat_score = 0.25
@@ -311,7 +406,7 @@ async def agentic_chat_stream(request: AgenticChatRequest):
         
         # Analyse de sécurité
         security_analysis = await analyze_message_security(request.query, request.session_id)
-        system_blocked = await check_and_block_if_needed(security_analysis, request.session_id)
+        system_blocked = await check_and_block_if_needed(security_analysis, request.session_id, request.query)
         
         if system_blocked:
             response_content = "🚫 Accès suspendu pour des raisons de sécurité. Veuillez reformuler votre question."
@@ -351,13 +446,13 @@ async def agentic_status():
         return {
             "agent_available": True,
             "agent_type": "agentic_with_external_routing",
-            "timestamp": "2025-06-10T04:06:00Z",
-            "version": "7.0.1",
+            "timestamp": datetime.now().isoformat(),
+            "version": "7.0.2",
             "stats": stats,
             "security": {
                 "enabled": True,
                 "threat_level": system_state.get("threat_level", "safe"),
-                "blocked_sessions": len([k for k, v in update_user_activity.cache_info() if v.get("blocked", False)]) if hasattr(update_user_activity, 'cache_info') else 0,
+                "blocked_sessions": len([k for k, v in user_activities.items() if v.get("blocked", False)]),
                 "total_alerts": len(security_alerts)
             },
             "features": {
@@ -368,6 +463,7 @@ async def agentic_status():
                 "streaming": True,
                 "security_analysis": True,
                 "auto_blocking": True,
+                "keyword_detection": True,
                 "llm_hybrid": stats.get("components_status", {}).get("llm_manager", False)
             }
         }
@@ -377,7 +473,7 @@ async def agentic_status():
         return {
             "error": str(e),
             "agent_available": False,
-            "timestamp": "2025-06-10T04:06:00Z"
+            "timestamp": datetime.now().isoformat()
         }
 
 @router.get("/security/stats")
@@ -395,7 +491,11 @@ async def get_security_stats():
             "blocked_sessions": blocked_sessions,
             "high_risk_sessions": high_risk_sessions,
             "system_state": system_state,
-            "security_integrated": True
+            "security_integrated": True,
+            "keyword_detection_enabled": True
         }
     except Exception as e:
         return {"security_integrated": False, "error": str(e)}
+
+# Import nécessaire pour le timestamp
+from datetime import datetime
